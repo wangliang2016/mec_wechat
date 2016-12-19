@@ -1,0 +1,32 @@
+{
+  "GAMECODE":{
+    "type":"int(6)",
+    "allowNull":false,
+    "primaryKey":true,
+    "comment":null
+   },
+  "GAMEFILENAME":{
+    "type":"varchar(64)",
+    "allowNull":true,
+    "primaryKey":false,
+    "comment":null
+  },
+  "GAMEROLE":{
+    "type":"tinyint(1)",
+    "allowNull":false,
+    "primaryKey":false,
+    "comment":null
+  },
+  "GAMEDESCRIPT":{
+    "type":"text",
+    "allowNull":false,
+    "primaryKey":false,
+    "comment":null
+  },
+  "GAMEPIC":{
+    "type":"text",
+    "allowNull":false,
+    "primaryKey":false,
+    "comment":null
+  }
+}

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta id="CouponId" name="CouponId" content="<%=CouponId %>"/>
+    <title>使用该优惠券</title>
+    <script src="../../js/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.qrcode.min.js"></script>
+    <link href="../../css/bootstrap.css" rel="stylesheet" type="text/css" media='all'>
+    <script src="../../js/jquery-barcode.min.js"></script>
+    <link href="../../css/personalCoupon.css" rel="stylesheet" type="text/css" media='all'>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var couponId=$("#CouponId")[0].content;
+            jQuery(function(){
+                jQuery('#QRoutput').qrcode(couponId);
+            });
+//            $("#bcTarget2").barcode(couponId, "int25",{barWidth:2, barHeight:30});
+        });
+    </script>
+</head>
+<body style="background: #FFB900;">
+<div id="total">
+    <div id="personalInfo">
+        <p>来自<%=Location%>的<%=NickName%></p>
+                <p>请将该二维码出示给收银人员</p>
+    </div>
+    <!--<div id="bcTarget2"></div>-->
+    <div id="QRoutput" ></div>
+</div>
+</body>
+</html>

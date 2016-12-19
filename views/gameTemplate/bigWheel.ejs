@@ -1,0 +1,809 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" id="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>大转盘</title>
+    <script src="http://static.jiouyun.com/source/modules/bigwheel/template/style/js/jquery.min.js"></script>
+    <script src="http://static.jiouyun.com/source/modules/bigwheel/template/style/js/awardRotate.js"></script>
+    <!--适应机器的界面大小-->
+    <script type="text/javascript">
+        !function () {
+            //rem  计算方式  px/40
+            function setFontSize() {
+                var __w = document.documentElement.clientWidth;
+                __w = __w > 768 ? 768 : __w;
+                document.documentElement.style.fontSize = __w / 16 + "px";
+            }
+
+            var _t = null;
+            window.addEventListener("resize", function () {
+                clearTimeout(_t);
+                _t = setTimeout(setFontSize, 100);
+            }, false);
+            setFontSize();
+        }(window);
+        var prize_link = '';
+    </script>
+    <link rel="stylesheet" type="text/css"
+          href="http://static.jiouyun.com/source/modules/bigwheel/template/style/css/style.css?1">
+
+<body style="background-color: #d02d48;display:none">
+<div class="bigwheel clearfix">
+    <img style="width: 100%;max-height:70px;"
+         src="http://static.jiouyun.com/resource/attachment/8128/20160919/VwwudDiuOK5MNZomoWksziNu5FxnuX.png">
+
+    <div class="scence">
+
+        <div class="belt"></div>
+
+        <div class="wheel" id="outer"></div>
+        <div class="pointer" id="pointer"></div>
+        <div class="belt2">
+            <div class="left" id="act_1">活动说明</div>
+            <div class="right" id="record_1">中奖记录</div>
+        </div>
+        <div class="data">
+            <!--动态获取总共的次数和今日的次数-->
+            总共次数：<span id="totalcount">∞</span> 次 | 今日次数：<span id="count">20</span> 次
+        </div>
+    </div>
+
+    <!--奖项设置 -->
+    <div class="boxcontent">
+        <div class="box">
+            <div class="title-red">奖项设置</div>
+            <!--动态获取奖品列表及数量-->
+            <div class="detail2"><p>一等奖：满100减20 奖品数量： 20</p>
+
+                <p>二等奖：满100减10 奖品数量： 40</p>
+
+                <p>三等奖：满100减5 奖品数量： 59</p>
+
+                <p>四等奖：满100减4 奖品数量： 80</p>
+
+                <p>五等奖：满100减3 奖品数量： 100</p>
+
+                <p>参与奖：满100减2 奖品数量： 120</p></div>
+        </div>
+    </div>
+    <!--获奖名单 -->
+    <div class="boxcontent">
+        <div class="box">
+            <div class="title-red">获奖名单</div>
+            <div class="reward_list_c">
+                <ul class="reward_list ">
+                    <li class="clearfix">
+                        <!--动态获取获奖人列表及数量-->
+                        <div class="phone">恭喜微**</div>
+                        <div class="name">获得满100减5</div>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <style type="text/css">
+        .positionFix {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 70px;
+        }
+
+        .positionFix a {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .positionFix img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .positionFix span {
+            position: absolute;
+            right: 0.2rem;
+            top: 0.2rem;
+            display: block;
+            width: 1rem;
+            height: 1rem;
+            background: #fff;
+            color: #000;
+            border-radius: 50%;
+            font-size: 1rem;
+            text-align: center;
+            line-height: 1rem;
+        }
+    </style>
+    <!--动态获取公众号归属信息-->
+    <div class="footer">©汇High</div>
+    <!--动态获取广告信息-->
+    <div class="positionFix"><span>×</span><a href="http://www.58pic.com/psd/14941329.html"><img
+                    src="http://static.jiouyun.com/resource/attachment/8128/20160919/syvITTJ9zZ06X821o53xok655T2jI3.jpg"></a>
+    </div>
+</div>
+<!--提示 -->
+<div class="mask none" id="mask_layer">
+    <div class="dialog_bg">
+        <div class="content">
+            <div class="msg" id="msg_layer">
+            </div>
+
+        </div>
+        <div class="btn" id="mask_none">确认</div>
+    </div>
+</div>
+<!--中奖 -->
+<div id="reward_layer" class="mask none">
+    <div class="reward_bg">
+        <div class="reward_title"></div>
+        <div class="reward_msg" style="padding-bottom:0.5rem;">
+            <div class="reward_data">
+                <!--该项只要修改为奖项，手机号及地址不用填-->
+                <p>您中了：<span class="red" id="prizetype">感谢参与</span></p>
+
+                <p>SN码：<span class="code" id="sncode"></span></p>
+
+                <p class="label">请仔细填写手机号，提交后无法修改！</p>
+
+                <div id="username" class="input input_realname none">
+                    <input type="text" value="看看" id="realname" data-value="0" placeholder="请输入您的姓名">
+                </div>
+                <div class="input input_mobile">
+                    <input type="text" id="tel" value="微微" placeholder="用户请输入您的手机号">
+                </div>
+                <div id="addr" class="input input_address none">
+                    <input type="text" value="www" id="address" data-value="0" placeholder="请输入您的收货地址">
+                </div>
+            </div>
+
+        </div>
+        <div class="reward_btn" id="save-btn">确认</div>
+    </div>
+</div>
+<!--中奖纪录 -->
+<div class="record_c none" id='record_layer'>
+    <div class="top_title">中奖纪录</div>
+    <!--动态获取该人的中奖信息-->
+    <div class="close"></div>
+    <div id="wrapper_datalist">
+        <div class="datalist scroller"></div>
+    </div>
+</div>
+
+<!--活动说明 -->
+<div class="record_c none" id="act_layer">
+    <div class="top_title">活动说明</div>
+    <div class="close"></div>
+    <!--活动说明的内容需要动态的获取-->
+    <div class="detail">
+        兑奖请联系我们,电话: 13888888888<br/>
+        欢迎参加幸运大转盘活动
+    </div>
+</div>
+
+<div id='share_layer' class="mask share none" style="background: rgba(0,0,0,0.8);">
+    <div class="share_word" style="line-height:1.5;margin-top:3rem;">
+        <div class="s_w"></div>
+        <div style="font-size:0.8rem">请长按指纹“识别二维码”关注公众号，
+            <br> 回复“
+            <span class="keywords" style="color:yellow;font-weight: bold;font-size:1rem;text-shadow:none;">转盘</span>”
+            <br>即可参加该活动。
+        </div>
+        <div class="sp"></div>
+        <div class="d2 bg-img" style="">
+            <img alt="" style="width:5.4rem;height:5.4rem;" src="http://open.weixin.qq.com/qr/code/?username=">
+            <img alt="" style="width:5.4rem;height:5.4rem;opacity:0;"
+                 src="http://open.weixin.qq.com/qr/code/?username=">
+        </div>
+        <p class="cz">长按指纹"识别二维码"</p>
+    </div>
+</div>
+</body>
+
+<script type="text/javascript"
+        src="http://static.jiouyun.com/source/modules/bigwheel/template/style/js/zepto.js"></script>
+<script type="text/javascript"
+        src="http://static.jiouyun.com/source/modules/bigwheel/template/style/js/iscroll.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('.positionFix span').bind('click', function () {
+            $('.positionFix').hide();
+        })
+        function preLoadImage(images, callback, eachfun) {
+            var counter = 0;
+            var self = this;
+            for (var i = 0; i < images.length; i++) {
+                var img = new Image();
+                img.src = images[i];
+                img.onload = function () {
+                    eachfun && eachfun.call(this, this, counter);
+                    counter++;
+                    if (counter == images.length) {
+                        if (callback) {
+                            callback();
+                        }
+                    }
+                }
+            }
+        }
+
+        var path = 'http://static.jiouyun.com/source/modules/bigwheel/template/style/images/'
+        var images = [
+            path + 'wheel.png',
+            path + 'reward_title.png',
+            path + 'reward_title2.png',
+            path + 'pointer.png',
+            path + 'dialog_bg.png',
+            path + 'share.png',
+            path + 'bg.jpg',
+            path + 'p3.png',
+            path + 'input_mobile.png',
+            path + 'input_address.png',
+            path + 'input_realname.png',
+            path + 'close.png',
+        ];
+
+        preLoadImage(images, function () {
+            $('body').show();
+            auotScroll();
+            myscroll = new iScroll("wrapper_datalist");
+        });
+    })
+
+    var pset = {
+        c_username_one: 1,
+        c_address_one: 1,
+        c_username_two: 1,
+        c_address_two: 1,
+        c_username_three: 1,
+        c_address_three: 1,
+        c_username_four: 1,
+        c_address_four: 1,
+        c_username_five: 0,
+        c_address_five: 0,
+        c_username_six: 0,
+        c_address_six: 0,
+    };
+
+//动态获取该人的中奖记录
+    function pushToRecord(recordListData) {
+        $(".datalist").html('');
+        for (var i = 0; i < recordListData.length; i++) {
+            var record = recordListData[i];
+            var html = '';
+            html += '<div class="record-content">';
+            html += '<div class="row clearfix">'
+            html += '<div class="col left">奖&nbsp;&nbsp;&nbsp;品：</div>';
+            html += '<div class="col right">' + record.recordName + '</div>';
+            html += '</div>';
+            html += '<div class="row clearfix">';
+            html += '<div class="col left">中奖码：</div>';
+            html += '<div class="col right">' + record.recordNumber + ' </div>';
+            html += '</div>';
+            if (record.username == 1) {
+                html += '<div class="row clearfix">';
+                html += '<div class="col left">姓名：</div>';
+                html += '<div class="col right">' + record.realname + ' </div>';
+                html += '</div>';
+            }
+            html += '<div class="row clearfix">';
+            html += '<div class="col left">手机号：</div>';
+            html += '<div class="col right">' + record.phoneNumber + ' </div>';
+            html += '</div>';
+            if (record.addr == 1) {
+                html += '<div class="row clearfix">';
+                html += '<div class="col left">收货地址：</div>';
+                html += '<div class="col right">' + record.address + ' </div>';
+                html += '</div>';
+            }
+            if (record.isShow) {
+                html += '<div class="row clearfix">'
+                html += '<div class="col left">状&nbsp;&nbsp;&nbsp;态：</div>';
+                html += '<div class="col right">';
+                if (record.stutas == 'exchanged') {
+                    html += '<span class="exchanged">已领取</span>'
+                } else {
+                    html += '<div class="exchange" id="' + record.id + '">兑换奖品</span>'
+                }
+                html += '</div></div>';
+            }
+            html += '</div>';
+            $(".datalist").append(html);
+        }
+    }
+
+    function showLayer(p) {
+        $(p).removeClass("none");
+    }
+    function showlj(name, address) {
+        if (name == 1) {
+            $('#username').removeClass("none");
+        } else {
+            $('#username').addClass("none");
+        }
+        if (address == 1) {
+            $('#addr').removeClass("none");
+        } else {
+            $('#addr').addClass("none");
+        }
+        $("#realname").attr("data-value", name);
+        $("#address").attr("data-value", address);
+        $('#reward_layer').removeClass("none");
+    }
+    function hideLayer(p) {
+        $(p).addClass("none");
+    }
+    //获奖名单不断旋转的代码
+    function auotScroll() {
+        //-webkit-transform: translateY(-20px);
+        var count = Math.ceil($(".reward_list li").length / 3);
+        var cur = 1;
+        var h = $(".reward_list li").first().height();
+        $(".reward_list_c").css("height", 3 * h + "px");
+        var _t = 0;
+        if (count > 1) {
+            $(".reward_list").css("-webkit-transition", "all 1s");
+            _t = setInterval(function () {
+
+                if (cur < count) {
+                    $(".reward_list").css("-webkit-transform", "translateY(-" + cur * h * 3 + "px)");
+                    cur++;
+                } else {
+                    $(".reward_list").attr("style", "");
+                    $(".reward_list").css("-webkit-transform", "translateY(0px)");
+                    clearInterval(_t);
+                    setTimeout(function () {
+                        auotScroll();
+                    }, 2000);
+                }
+            }, 1500);
+        }
+    }
+    $(function () {
+
+        $("#exchangeMask").click(function (e) {
+            if (e.target.id == "exchangeMask") {
+                hideLayer("#exchangeMask");
+            }
+        });
+        $(".exchange").live('click', function () {
+            $('#aid').val($(this).attr('id'));
+            showLayer("#exchangeMask");
+        });
+
+        $('.submit-btn').click(function () {
+            var pass = $('.sn').val();
+            var aid = $('#aid').val();
+            if (!pass) {
+                alert('请输入商家兑奖密码！');
+                return;
+            }
+            if (!aid) {
+                alert('缺少重要参数！');
+                return;
+            }
+            //该ajax请求相当于核销
+            $.ajax({
+                url: "mobile.php?act=module&id=44853&name=bigwheel&do=awarding&weid=7451",
+                dataType: "json",
+                data: {
+                    aid: aid,
+                    pass: pass
+                },
+                beforeSend: function () {
+
+                },
+                success: function (data) {
+                    if (data.success) {
+                        $.ajax({
+                            url: "mobile.php?act=module&id=44853&name=bigwheel&do=getawardmy&weid=7451",
+                            dataType: "json",
+                            data: {
+                                t: Math.random()
+                            },
+                            beforeSend: function () {
+
+                            },
+                            success: function (data) {
+                                if (data.success) {
+                                    pushToRecord(data.awardmy);
+                                    setTimeout(function () {
+                                        myscroll && myscroll.refresh();
+                                    }, 1000);
+                                }
+                            }
+                        });
+                        hideLayer("#exchangeMask");
+                    }
+                    alert(data.msg);
+                    $('.sn').val('');
+                }
+            });
+        });
+
+        $("#record_1").bind("click", function () {
+            $.ajax({
+                url: "mobile.php?act=module&id=44853&name=bigwheel&do=getawardmy&weid=7451",
+                dataType: "json",
+                data: {
+                    t: Math.random()
+                },
+                beforeSend: function () {
+
+                },
+                success: function (data) {
+                    if (data.success) {
+                        pushToRecord(data.awardmy);
+                        setTimeout(function () {
+                            myscroll && myscroll.refresh();
+                        }, 1000);
+                    }
+                }
+            });
+            showLayer("#record_layer")
+        });
+        $("#act_1").bind("click", function () {
+            showLayer("#act_layer")
+        });
+        $("#act_layer .close").bind("click", function () {
+            hideLayer("#act_layer")
+        });
+        $("#record_layer .close").bind("click", function () {
+            hideLayer("#record_layer")
+        });
+
+        $("#mask_none").bind("click", function () {
+            hideLayer("#mask_layer");
+        });
+
+    });
+    $("#save-btn").bind("click", function () {
+        var nameval = $("#realname").attr("data-value");
+        var addressval = $("#address").attr("data-value");
+        var realname = $('#realname').val();
+        var tel = $('#tel').val();
+        var address = $('#address').val();
+        if (realname == '' && nameval == 1) {
+            alert('请输入姓名！');
+            $('#realname').focus();
+            return false;
+        }
+        if (tel == '') {
+            alert("请输入手机号");
+            $('#tel').focus();
+            return
+        }
+        if (address == '' && addressval == 1) {
+            alert('请输入您的收货地址!');
+            $('#address').focus();
+            return false;
+        }
+
+        var submitData = {
+            code: $("#sncode").text(),
+            tel: tel,
+            realname: realname,
+            address: address
+        };
+        $.post('mobile.php?act=module&id=44853&name=bigwheel&do=settel&weid=7451', submitData, function (data) {
+            if (data.success == true) {
+                hideLayer("#reward_layer");
+                if (prize_link) {
+                    alert('提交成功！');
+                    location.href = prize_link;
+                }
+            } else {
+                alert('数据提交错误，请截屏后联系商家！');
+            }
+        }, "json");
+    });
+
+</script>
+
+<script type="text/javascript">
+    function rnd(n, m) {
+        return Math.floor(Math.random() * (m - n + 1) + n)
+    }
+    $(function () {
+        /*window.requestAnimFrame = (function () {
+         return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+         function (callback) {
+         window.setTimeout(callback, 1000 / 60)
+         }
+         })();*/
+        var totalDeg = 360 * 3 + 0;
+        var steps = [];
+        //var lostDeg = [30, 90, 150, 210, 270, 330];
+        var lostDeg = [14, 72, 130, 190, 250, 314];
+        //var prizeDeg = [6, 66, 126, 186, 246, 306];
+        var prizeDeg = [165, 104, 48, 345, 280, 228];
+        var prize, sncode, prizename, prizedes, realname, address;
+        var count = 0;
+        var now = 0;
+        var a = 0.01;
+        var outter, inner, timer, running = false;
+        /*function countSteps() {
+         var t = Math.sqrt(2 * totalDeg / a);
+         var v = a * t;
+         for (var i = 0; i < t; i++) {
+         steps.push((2 * v * i - a * i * i) / 2)
+         }
+         steps.push(totalDeg)
+         }*/
+        /*function step() {
+         outter.style.webkitTransform = 'rotate(' + steps[now++] + 'deg)';
+         outter.style.MozTransform = 'rotate(' + steps[now++] + 'deg)';
+         if (now < steps.length) {
+         running = true;
+         requestAnimFrame(step)
+         } else {
+         setTimeout(function () {
+         running = false;
+         if (prize != null) {
+         $("#sncode").text(sncode);
+         $("#prizetype").text(prizename + " - " + prizedes);
+         showLayer("#reward_layer");
+         showlj(realname,address);
+         //$("#outercont").slideUp(500)
+         } else {
+         $("#msg_layer").html("亲，继续努力哦~~");
+         showLayer("#mask_layer");
+         //alert("亲，继续努力哦~~")
+         }
+         },
+         200)
+         }
+         }*/
+        /*function run(){
+         running = true;
+         timer = setInterval(function () {
+         i += 5;
+         outter.style.webkitTransform = 'rotate(' + i + 'deg)';
+         outter.style.MozTransform = 'rotate(' + i + 'deg)'
+         },
+         1)
+         }
+         function start(deg) {
+         deg = deg || lostDeg[parseInt(lostDeg.length * Math.random())];
+         running = true;
+         clearInterval(timer);
+         totalDeg = 360 * 2 + deg;
+         steps = [];
+         now = 0;
+         countSteps();
+         requestAnimFrame(step)
+         }
+
+         window.start = start;
+         outter = document.getElementById('outer');
+         i = 10;*/
+
+        var bRotate = false;
+        var rotateFn = function (angles, txt) {
+            bRotate = !bRotate;
+            $('#outer').stopRotate();
+            $('#outer').rotate({
+                angle: 0,
+                animateTo: angles + 1800,
+                duration: 8000,
+                callback: function () {
+                    bRotate = !bRotate;
+                    if (prize != null) {
+                        $("#sncode").text(sncode);
+                        $("#prizetype").text(prizename + " - " + prizedes);
+                        showLayer("#reward_layer");
+                        showlj(realname, address);
+                        //$("#outercont").slideUp(500)
+                    } else {
+                        $("#msg_layer").html("亲，继续努力哦~~");
+                        showLayer("#mask_layer");
+                        //alert("亲，继续努力哦~~")
+                    }
+                }
+            })
+        };
+
+        $("#pointer").click(function () {
+            if (bRotate)return;
+            var nowin = {};
+            nowin[1] = 15;
+            nowin[2] = 75;
+            nowin[3] = 135;
+            nowin[4] = 195;
+            nowin[5] = 255;
+            nowin[6] = 315;
+
+            var win = {};
+            win[1] = 165;
+            win[2] = 105;
+            win[3] = 45;
+            win[4] = 345;
+            win[5] = 285;
+            win[6] = 225;
+
+            //假数据
+            data = {
+                success: 1,
+                prizetype: 3,
+                name: "aaaa",
+                sn: "111000",
+                award: "ddsadasfd"
+            }
+            prize_link = '';
+            $.ajax({
+                url: "mobile.php?act=module&id=44853&name=bigwheel&do=getaward&weid=7451",
+                dataType: "json",
+                data: {
+                    t: Math.random()
+                },
+                beforeSend: function () {
+
+                },
+                success: function (data) {
+                    if (data.success) {
+
+                        if (data.success == 1) {
+                            //run();
+                            prize = data.prizetype;
+                            prizename = data.name;
+                            prizedes = data.award;
+                            sncode = data.sn;
+                            realname = data.realname;
+                            address = data.address;
+                            prize_link = data.link;
+                            //start(prizeDeg[data.prizetype - 1]);
+                            rotateFn(win[prize], prizename);
+
+                            if ($("#count").length > 0) {
+                                if (parseInt($("#count").text()) > 0) {
+                                    $("#count").text(parseInt($("#count").text()) - 1);
+                                } else {
+                                    $("#count").text(0);
+                                }
+                            }
+                            if ($("#totalcount").length > 0 && $('#totalcount').text() != '∞') {
+                                if (parseInt($("#totalcount").text()) > 0) {
+                                    $("#totalcount").text(parseInt($("#totalcount").text()) - 1)
+                                } else {
+                                    $("#totalcount").text(0);
+                                }
+                            }
+
+                        }
+                        else {
+                            prize = null; //clearInterval(timer);
+
+                            $("#msg_layer").html(data.msg);
+                            showLayer("#mask_layer");
+                            //alert( data.msg );
+                        }
+                    } else {
+                        prize = null;//run();
+                        //start();
+                        var noprize_num = rnd(1, 6);
+                        rotateFn(nowin[noprize_num], '');
+
+                        if ($("#count").length > 0) {
+                            if (parseInt($("#count").text()) > 0) {
+                                $("#count").text(parseInt($("#count").text()) - 1);
+                            } else {
+                                $("#count").text(0);
+                            }
+                        }
+                        if ($("#totalcount").length > 0 && $('#totalcount').text() != '∞') {
+                            if (parseInt($("#totalcount").text()) > 0) {
+                                $("#totalcount").text(parseInt($("#totalcount").text()) - 1)
+                            } else {
+                                $("#totalcount").text(0);
+                            }
+                        }
+
+                    }
+                    //running = false;
+                    //count++;
+
+                },
+                error: function () {
+                    prize = null;
+                    //start();
+                    //running = false;
+                    //count++;
+                },
+                timeout: 15000
+            })
+        })
+
+    });
+
+</script>
+
+<!--新版分享js-->
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+    //分享连接
+    var lineLink = "http://81287451.cloud.jiouyun.com/mobile.php?act=module&id=44853&name=bigwheel&share=1&from_user=oe94fuOYjOApffY9v7ZJ4rRtCLLo&do=index&weid=7451";
+    //图片连接
+    var Url = "http://static.jiouyun.com/source/modules/bigwheel/template/style/icon.png";
+    //分享内容
+    var descContent = "亲，欢迎参加大转盘抽奖活动，祝您好运哦！！ 亲，需要绑定账号才可以参加哦";
+    var shareTitle = "欢迎参加大转盘活动";
+
+    wx.config({
+        appId: "wx5c30177c4f734b4c",
+        timestamp: "1474338809",
+        nonceStr: "lZeWLVKTMIGLUPor",
+        signature: "4c1497cf30a07eaae2feee2eff0ddc82329db3c1",
+        jsApiList: [
+            // 所有要调用的 API 都要加到这个列表中
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'hideMenuItems'
+        ]
+
+    });
+    wx.checkJsApi({
+        jsApiList: [
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage'
+
+        ], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+        success: function (res) {
+            // alert(res);
+            //以键值对的形式返回，可用的api值true，不可用为false
+            // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"
+        }
+    });
+
+    wx.ready(function () {  // 在这里调用 API\
+        wx.hideMenuItems({
+            menuList: [
+                'menuItem:share:qq', // 阅读模式
+                'menuItem:share:facebook', // 分享到朋友圈
+                'menuItem:openWithQQBrowser', // 分享到朋友圈
+                'menuItem:openWithSafari', // 分享到朋友圈
+
+                'menuItem:share:weiboApp' // 复制链接
+            ] // 要隐藏的菜单项，所有menu项见附录3
+        });
+        //分享到朋友圈
+        wx.onMenuShareTimeline({
+            title: shareTitle, // 分享标题
+            link: lineLink, // 分享链接
+            imgUrl: Url, // 分享图标
+            success: function () {
+                // 用户确认分享后执行的回调函数
+            },
+            cancel: function () {
+                // 用户取消分享后执行的回调函数
+            }
+        });
+        //分享到朋友
+        wx.onMenuShareAppMessage({
+            title: shareTitle, // 分享标题
+            desc: descContent, // 分享描述
+            link: lineLink, // 分享链接
+            imgUrl: Url, // 分享图标
+            type: '', // 分享类型,music、video或link，不填默认为link
+            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+            success: function () {
+                // 用户确认分享后执行的回调函数
+            },
+            cancel: function () {
+                // 用户取消分享后执行的回调函数
+            }
+        });
+    });
+
+</script>
+<script type="text/javascript" src="/stat.php?uid=8128&weid=7451&rid=44853&module=bigwheel"></script>
+<div style="display: none">
+    <script src="http://s4.cnzz.com/z_stat.php?id=1255384304&web_id=1255384304" language="JavaScript"></script>
+</div>
+</html>

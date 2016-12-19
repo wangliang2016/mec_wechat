@@ -1,0 +1,26 @@
+{
+  "USERID": {
+    "type": "int(16)",
+    "allowNull": false,
+    "primaryKey": true,
+    "autoIncrement": true
+  },
+  "ROLE": {
+    "type": "int(1)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  },
+  "TELEPHONE": {
+    "type": "VARCHAR(16)",
+    "allowNull": false,
+    "primaryKey": false,
+    "comment": null
+  },
+  "OPENID": {
+    "type": "VARCHAR(64)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  }
+}

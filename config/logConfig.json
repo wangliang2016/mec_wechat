@@ -1,0 +1,6 @@
+{
+  "dev":{
+    "contextLogPath":"../../web_app_logs/context.log",
+    "accessLogPath":"../../web_app_logs/access.log"
+  }
+}

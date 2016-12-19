@@ -1,0 +1,992 @@
+<html ng-app="ews">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../../css/bootstrap.css" rel="stylesheet" type="text/css" media='all'>
+    <!--<link href="../../css/games.css" rel="stylesheet" type="text/css" media='all'>-->
+    <link href="../../css/frame_v4.css" rel="stylesheet" type="text/css" media='all'>
+
+    <script src="../../js/jquery-2.1.1.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../css/jquery.searchableSelect.css">
+    <link href="../../bigwheel/css/daterangepicker.css" rel="stylesheet" type="text/css" media='all'>
+    <script charset="utf-8" src="/lib/kindeditor-4.1.10/kindeditor.js"></script>
+    <script charset="utf-8" src="/lib/kindeditor-4.1.10/lang/zh_CN.js"></script>
+    <script src="../../bigwheel/js/daterangepicker.js"></script>
+    <script type="text/javascript" src="../../js/angular.min.js" ></script>
+    <script type="text/javascript" src="../../js/angular-route.min.js" ></script>
+    <script type="text/javascript" src="../../js/angular-ui-router.js" ></script>
+    <script type="text/javascript" src="../../gameSetting1.js" ></script>
+    <script type="text/javascript" src="../../js/jquery.searchableSelect.js"></script>
+    <script type="text/javascript">
+        function thumb(obj) {
+            if (obj.height > obj.width) {
+                obj.style.height = "100px";
+                obj.style.width = "auto"
+            }
+        }
+        KindEditor.ready(function (K) {
+            var uploadbutton = K.uploadbutton({
+                button: K('#upload-image-start_picurl')[0],
+                fieldName: 'imgFile',
+                url: '/games/uploadImg',
+                afterUpload: function (data) {
+                    if (data.error === 0) {
+                        console.log(data);
+                        var url = K.formatUrl(data.url, 'absolute');
+                        K('#upload-image-url-start_picurl').val(url);
+                        $("#upload-image-url-start_picurl-old").val(url);
+                        $("#upload-image-preview-start_picurl").html('<img src="' + url + '" width="100"  onload="thumb(this)" />');
+                    } else {
+                        alert(data.message);
+                    }
+                },
+                afterError: function (str) {
+                    alert('自定义错误信息: ' + str);
+                }
+            });
+            uploadbutton.fileBox.change(function (e) {
+                uploadbutton.submit();
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        function thumb(obj) {
+            if (obj.height > obj.width) {
+                obj.style.height = "100px";
+                obj.style.width = "auto"
+            }
+        }
+        KindEditor.ready(function (K) {
+            var uploadbuttonad = K.uploadbutton({
+                button: K('#upload-image-adimg')[0],
+                fieldName: 'imgFile',
+                url: '/games/uploadImg',
+                afterUpload: function (data) {
+                    if (data.error === 0) {
+                        console.log(data);
+                        var url = K.formatUrl(data.url, 'absolute');
+                        K('#upload-image-url-adimg').val(url);
+                        $("#upload-image-url-adimg-old").val(url);
+                        $("#upload-image-preview-adimg").html('<img src="' + url + '" width="100"  onload="thumb(this)" />');
+                    } else {
+                        alert(data.message);
+                    }
+                },
+                afterError: function (str) {
+                    alert('自定义错误信息: ' + str);
+                }
+            });
+            uploadbuttonad.fileBox.change(function (e) {
+                uploadbuttonad.submit();
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        function thumb(obj) {
+            if (obj.height > obj.width) {
+                obj.style.height = "100px";
+                obj.style.width = "auto"
+            }
+        }
+        KindEditor.ready(function (K) {
+            var uploadbuttonlogo = K.uploadbutton({
+                button: K('#upload-image-lottery_background')[0],
+                fieldName: 'imgFile',
+                url: '/games/uploadImg',
+                afterUpload: function (data) {
+                    if (data.error === 0) {
+                        console.log(data);
+                        var url = K.formatUrl(data.url, 'absolute');
+                        K('#upload-image-url-lottery_background').val(url);
+                        $("#upload-image-url-lottery_background-old").val(url);
+                        $("#upload-image-preview-lottery_background").html('<img src="' + url + '" width="100"  onload="thumb(this)" />');
+                    } else {
+                        alert(data.message);
+                    }
+                },
+                afterError: function (str) {
+                    alert('自定义错误信息: ' + str);
+                }
+            });
+            uploadbuttonlogo.fileBox.change(function (e) {
+                uploadbuttonlogo.submit();
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        function thumb(obj) {
+            if (obj.height > obj.width) {
+                obj.style.height = "100px";
+                obj.style.width = "auto"
+            }
+        }
+        KindEditor.ready(function (K) {
+            var uploadbuttonend = K.uploadbutton({
+                button: K('#upload-image-end_picurl')[0],
+                fieldName: 'imgFile',
+                url: '/games/uploadImg',
+                afterUpload: function (data) {
+                    if (data.error === 0) {
+                        console.log(data);
+                        var url = K.formatUrl(data.url, 'absolute');
+                        K('#upload-image-url-end_picurl').val(url);
+                        $("#upload-image-url-end_picurl-old").val(url);
+                        $("#upload-image-preview-end_picurl").html('<img src="' + url + '" width="100"  onload="thumb(this)" />');
+                    } else {
+                        alert(data.message);
+                    }
+                },
+                afterError: function (str) {
+                    alert('自定义错误信息: ' + str);
+                }
+            });
+            uploadbuttonend.fileBox.change(function (e) {
+                uploadbuttonend.submit();
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        function thumb(obj) {
+            if (obj.height > obj.width) {
+                obj.style.height = "100px";
+                obj.style.width = "auto"
+            }
+        }
+        KindEditor.ready(function (K) {
+            var uploadbuttonshare = K.uploadbutton({
+                button: K('#upload-image-share_img')[0],
+                fieldName: 'imgFile',
+                url: '/games/uploadImg',
+                afterUpload: function (data) {
+                    if (data.error === 0) {
+                        console.log(data);
+                        var url = K.formatUrl(data.url, 'absolute');
+                        K('#upload-image-url-share_img').val(url);
+                        $("#upload-image-url-share_img-old").val(url);
+                        $("#upload-image-preview-share_img").html('<img src="' + url + '" width="100"  onload="thumb(this)" />');
+                    } else {
+                        alert(data.message);
+                    }
+                },
+                afterError: function (str) {
+                    alert('自定义错误信息: ' + str);
+                }
+            });
+            uploadbuttonshare.fileBox.change(function (e) {
+                uploadbuttonshare.submit();
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        function thumb(obj) {
+            if (obj.height > obj.width) {
+                obj.style.height = "100px";
+                obj.style.width = "auto"
+            }
+        }
+        KindEditor.ready(function (K) {
+            var uploadbuttonlogoad = K.uploadbutton({
+                button: K('#upload-image-merchant_logo')[0],
+                fieldName: 'imgFile',
+                url: '/games/uploadImg',
+                afterUpload: function (data) {
+                    if (data.error === 0) {
+                        console.log(data);
+                        var url = K.formatUrl(data.url, 'absolute');
+                        K('#upload-image-url-merchant_logo').val(url);
+                        $("#upload-image-url-merchant_logo-old").val(url);
+                        $("#upload-image-preview-merchant_logo").html('<img src="' + url + '" width="100"  onload="thumb(this)" />');
+                    } else {
+                        alert(data.message);
+                    }
+                },
+                afterError: function (str) {
+                    alert('自定义错误信息: ' + str);
+                }
+            });
+            uploadbuttonlogoad.fileBox.change(function (e) {
+                uploadbuttonlogoad.submit();
+            });
+        });
+    </script>
+    <script>
+        $(function () {
+//            $('#myTab a:first').tab('show');
+            $('#step2').click(function(){
+                $('#myTab li:eq(1) a').tab('show')
+
+            });
+            $('#step3').click(function(){
+                $('#myTab li:eq(2) a').tab('show')
+            });
+//            $(function(){
+//                var date=new Date();
+//                var endDate=new Date();
+//                endDate.setDate(endDate.getDate()+1);
+//                var startTime=date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDay();
+//                var endTime=endDate.getFullYear()+"-"+(endDate.getMonth()+1)+"-"+endDate.getDay();
+//                var fullTime=startTime+"至"+endTime;
+//                $("#-start").val(startTime);
+//                $("#-end").val(endTime);
+//                $("-date-range").val(fullTime);
+//            })
+        });
+
+//        $(function(){
+//            $('couponSelect1').searchableSelect();
+//        });
+//        $(function(){
+//            $('couponSelect2').searchableSelect();
+//        });
+//        $(function(){
+//            $('couponSelect3').searchableSelect();
+//        });
+//        $(function(){
+//            $('couponSelect4').searchableSelect();
+//        });
+//        $(function(){
+//            $('couponSelect5').searchableSelect();
+//        });
+//        $(function(){
+//            $('couponSelect6').searchableSelect();
+//        });
+//        $(function(){
+//            $('couponSelect7').searchableSelect();
+//        });
+
+    </script>
+</head>
+<body  style="padding-left: 1%;padding-top: 0px;margin-top: 0px">
+<div class="bs-example bs-example-tabs" ng-controller="activitySettingcontrl">
+    <ul id="myTab" class="nav nav-tabs" role="tablist">
+        <li role="presentation" ><a href="#fundamental" id="home-tab" role="tab" data-toggle="tab"
+                                                  aria-controls="home" aria-expanded="true"><h4 class="alert-heading">
+                    基本设置</h4></a></li>
+        <li role="presentation" ><a href="#activitySetting" role="tab" id="profile-tab" data-toggle="tab"
+                                   aria-controls="profile" aria-expanded="true"><h4 class="alert-heading">奖品设置</h4></a></li>
+        <li role="presentation" ><a href="#shareSetting" role="tab" id="share-tab" data-toggle="tab"
+                                   aria-controls="share" aria-expanded="true"><h4 class="alert-heading">分享设置</h4></a></li>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="fundamental" aria-labelledby="home-tab">
+            <table class="my_common_table col_2">
+                <tbody>
+                <tr>
+                    <td class="right my_label">规则名称<span style="color: red">*</span></td>
+                    <td class="my_val">
+                        <input type="text" data-validate="require" data-label="规则名称" id="rule-name" class="my_txt"
+                               placeholder="" name="name" value="" ng-model="ruleName"/>
+                        <span class="my_msg">您可以给这条规则起一个名字, 方便下次修改和查看.</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="right my_label">触发关键字<span style="color: red">*</span></td>
+                    <td class="my_val">
+                        <input id="k_z_v" type="text" data-validate="require" data-label="触发关键字" class="my_txt"
+                               placeholder=""  name="keywords" value="" ng-model="keyWords">
+                        <span class="my_msg">当用户的对话内容符合以上的关键字定义时，会触发这个回复定义。多个关键字请使用英文分号;隔开。</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">活动开始标题<span class="red">*</span></td>
+                    <td>
+                        <input type="text" id="title" class="my_txt" placeholder="" name="title" value="" ng-model="startTitle">
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" valign="top">活动开始图片<span class="red">*</span></td>
+                    <td>
+
+                        <div style="display:block; margin-top:5px;" class="input-append clearfix">
+                            <input class="ke-input-text" type="text" value=""
+                                   name="start_picurl" id="upload-image-url-start_picurl" autocomplete="off" value=""
+                                   readonly="readonly" ng-model="startPicUrl"/>
+                            <input class="ke-input-text" type="hidden" id="upload-image-url-start_picurl" value=""
+                                   readonly="readonly"/>
+                            <input type="button" class="btn" tyle="display:inline-block;"
+                                   id="upload-image-start_picurl" value="选择图片"/>
+                        </div>
+
+                        <div id="upload-image-preview-start_picurl" style="margin-top:10px;"><img
+                                    src="/upload/upload_73c3bcc1c267bbf8046368576c824173.jpg" width="100" onload="thumb(this)">
+                        </div>
+
+                        <div class="my_msg_div">
+                            <div style="color:#666;">图片尺寸720*400，只支持jpg,png,jpeg图片</div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" valign="top">活动简介<span class="red">*</span></td>
+                    <td>
+                <textarea style="width:40%;height:60px;" id="description" name="description" class="my_textarea"
+                          cols="60" ng-model="activityIntroduction">欢迎参加幸运刮刮卡活动</textarea>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td align="right">活动时间<span class="red">*</span></td>
+                    <td>
+                        <input name="datelimit-start" id="-start" type="hidden" value="2016-11-1" >
+                        <input name="datelimit-end" id="-end" type="hidden"  value="2016-11-3">
+                        <button class="btn" id="-date-range" type="button"><span
+                                    class="date-title" value="2016-11-1至2016-11-3">2016-11-1至2016-11-3</span>
+                            <i class="icon-caret-down"></i></button>
+                        <script type="text/javascript">
+                            $("#-date-range").daterangepicker({
+                                format: "YYYY-MM-DD",
+                                startDate: $(":hidden[id=-start]").val(),
+                                endDate: $(":hidden[id=-end]").val(),
+                                locale: {
+                                    applyLabel: "确定",
+                                    cancelLabel: "取消",
+                                    fromLabel: "从",
+                                    toLabel: "至",
+                                    weekLabel: "周",
+                                    customRangeLabel: "日期范围",
+                                    daysOfWeek: moment()._lang._weekdaysMin.slice(),
+                                    monthNames: moment()._lang._monthsShort.slice(),
+                                    firstDay: 0
+                                }
+                            }, function (start, end) {
+                                $("#-date-range .date-title").html(start.format("YYYY-MM-DD") + " 至 " + end.format("YYYY-MM-DD"));
+                                $(":hidden[id=-start]").val(start.format("YYYY-MM-DD"));
+                                $(":hidden[id=-end]").val(end.format("YYYY-MM-DD"));
+                            });</script>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">活动说明<span class="red">*</span></td>
+                    <td>
+                    <textarea id="activity_editor_content" name="activity_content" style="width:700px;height:300px;" ng-model="activityContent"></textarea>
+                    <script type="text/javascript">
+                        KindEditor.ready(function(K){
+                            var options={
+                                cssPath:'../lib/kindeditor-4.1.10/plugins/code/prettify.css',
+                                filterMode:true
+                            };
+                            var editor= K.create('textarea[name="activity_content"]',options);
+                            window.editor= K.create("#activity_editor_content");
+                        });
+                    </script>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" valign="top">兑奖信息<span class="red">*</span></td>
+                    <td>
+                        <input type="text" id="ticket_information" class="my_txt" placeholder=""
+                               name="ticket_information"
+                               value="" ng-model="ticketInformation">
+
+                        <div class="my_msg">例如: 兑奖请联系我们，电话 13xxxxxxxxx</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" valign="top">重复抽奖信息<span class="red">*</span></td>
+                    <td>
+                        <input type="text" id="repeat_lottery_reply" class="my_txt" placeholder=""
+                               name="repeat_lottery_reply"
+                               value="" ng-model="repeatWords">
+
+                        <div class="my_msg">如果设置只允许抽一次奖的，可写：你已经玩过了，下次再来。 如果设置可多次抽奖，请写：继续努力哦！</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" valign="top">刮奖背景图片</td>
+                    <td>
+                        <div style="display:block; margin-top:5px;" class="input-append clearfix">
+
+                            <input type="text" value="" name="merchant_logo" id="upload-image-url-lottery_background"
+                                   class="ke-input-text"  autocomplete="off" readonly="readonly" ng-model="lotteryBackgroundUrl">
+                            <input type="hidden" value="" name="merchant_logo_old"
+                                   id="upload-image-url-lottery_background-old">
+                            <button class="btn" style="display:inline-block;margin-left:10px;" type="button"
+                                    id="upload-image-lottery_background" value="选择图片">
+                            </button>
+                        </div>
+                        <div id="upload-image-preview-lottery_background" style="margin-top:10px;"><img
+                                    src="/upload/upload_ba4a576c73910c874a10280d1762c2a9.jpg" width="100" onload="thumb(this)"></div>
+                        <div class="my_msg_div">
+                            <div style="color:#666;">图片尺寸640*520，只支持jpg,png,jpeg图片</div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" valign="top">刮奖文字图片</td>
+                    <td>
+                        <div style="display:block; margin-top:5px;" class="input-append clearfix">
+                            <input type="text" value="" name="adimg" id="upload-image-url-adimg" class="my_txt"
+                                   autocomplete="off"
+                                   style="float:left" ng-model="lotteryWordsUrl">
+                            <input type="hidden" value="" name="adimg_old" id="upload-image-url-adimg-old">
+                            <button class="btn" style="display:inline-block;margin-left:10px;" type="button"
+                                    id="upload-image-adimg" value="选择图片">
+                            </button>
+                        </div>
+                        <div id="upload-image-preview-adimg" style="margin-top:10px;"><img
+                                    src="/upload/upload_c68085c149b5ff3783d465b1f96ba630.png" width="100" onload="thumb(this)"></div>
+                        <div class="my_msg_div">
+                            <div style="color:#666;">图片尺寸450*300，只支持jpg,png,jpeg图片</div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" valign="top">核销码</td>
+                    <td>
+                        <input type="text" class="my_txt" placeholder="" name="adlink" value="" ng-model="verificationWords">
+                        <div class="my_msg_div">
+                            <div style="color:#666;">设置6位核销码</div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">活动结束标题<span class="red">*</span></td>
+                    <td>
+                        <input type="text" id="end_theme" class="my_txt" placeholder="" name="end_theme"
+                               value="" ng-model="endTitle">
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" valign="top">活动结束图片<span class="red">*</span></td>
+                    <td>
+                        <div style="display:block; margin-top:5px;" class="input-append clearfix">
+                            <input type="text" value=""
+                                   name="end_picurl" id="upload-image-url-end_picurl" class="my_txt" autocomplete="off"
+                                   style="float:left" ng-model="endPicUrl">
+                            <input type="hidden" value="" name="end_picurl_old" id="upload-image-url-end_picurl-old">
+                            <button class="btn" style="display:inline-block;margin-left:10px;" type="button"
+                                    id="upload-image-end_picurl" value="选择图片">
+                            </button>
+                        </div>
+                        <div id="upload-image-preview-end_picurl" style="margin-top:10px;"><img
+                                    src="/upload/upload_6c17f89358e91fff606ec9a0fb78f766.jpg" width="100" onload="thumb(this)"></div>
+                        <div class="my_msg_div">
+                            <div style="color:#666;">图片尺寸720*400，只支持jpg,png,jpeg图片</div>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td align="right" valign="top">活动结束说明<span class="red">*</span></td>
+                    <td>
+                    <textarea style="width:40%;height:60px;" id="end_instruction" name="end_instruction"
+                              class="my_textarea" cols="60" ng-model="endIntroduction">亲，活动已经结束，请继续关注我们的后续活动哦~</textarea>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-success center-block"   id="step2" > 下一步  </button>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="activitySetting" aria-labelledby="profile-tab">
+            <table class="my_common_table col_2">
+                <tbody>
+                <!--			<tr>
+                                <td><label for="">中奖率：</label></td>
+                                <td>
+                                 <div class="input-append">
+                <input type="text" class="span1" name="probability" value="0" />
+                <span class="add-on">%</span>
+                </div>
+                                    <div class="my_msg">每次抽奖的中奖概率，一等奖中奖概率 = 获奖人数/活动人数*奖品数/总奖品数</div>
+                                </td>
+                            </tr>-->
+                <tr>
+                    <td align="right" valign="top" width="11%;">奖品设置<span class="red">*</span><br>(最多7个)</td>
+                    <td>
+                        <div class="my_table" style="  padding: 0;  margin-left: -5px;">
+                            <style>
+                                .prize_link {
+                                    display: none;
+                                }
+
+                                .prize_link_help {
+                                    width: 15px;
+                                    height: 15px;
+                                    font-size: 9px;
+                                    display: inline-block;
+                                    border: 1px solid #0081FA;
+                                    color: #0081FA;
+                                    -webkit-border-radius: 5px;
+                                    -moz-border-radius: 10px;
+                                    border-radius: 10px;
+                                    text-align: center
+                                }
+
+                                #prize_table td {
+                                    border: 1px solid #eee;
+                                }
+                            </style>
+                            <script>
+                                $(function () {
+                                    $('.use_link').click(function () {
+                                        var chk = $(this).attr('checked');
+                                        if (chk) {
+                                            $(this).next('div').next('.prize_link').show();
+                                        } else {
+                                            $(this).next('div').next('.prize_link').children('input').val('');
+                                            $(this).next('div').next('.prize_link').hide();
+                                        }
+                                    });
+                                    $('.prize_link').each(function () {
+                                        var obj = $(this);
+                                        if (obj.children('input').val()) {
+                                            obj.show();
+                                            obj.prev('div').prev('.use_link').attr('checked', true);
+                                        } else {
+                                            obj.hide();
+                                            obj.prev('div').prev('.use_link').removeAttr('checked');
+                                        }
+                                    })
+                                })
+                            </script>
+                            <table class="my_common_table col_2" id="prize_table">
+                                <tbody id="re-items">
+                                <tr>
+                                    <td class="my_td_center w100">奖品类别<br>(10字以内)</td>
+                                    <td>奖品名称(50字以内)</td>
+                                    <!--<td>奖品类型(优惠券或实物)</td>-->
+                                    <td>对应优惠券ID</td>
+                                    <!--<td class="w100" style="margin-left:50px;">奖品数量</td>-->
+                                    <td class="w100" style="margin-left:50px;">中奖概率</td>
+                                    <!--<td class="w100" style="margin-left:50px;">显示姓名</td>-->
+                                    <!--<td class="w100" style="margin-left:50px;">显示地址</td>-->
+                                    <!--中奖人注释没用<td>中奖人</td>-->
+                                </tr>
+                                <tr id="c_one">
+                                    <td class="my_td_center">
+                                        <input style="width:80px;" id="c_type_one" name="c_type_one" type="text"
+                                               class="my_txt" value="" maxlength="10" placeholder="例如:一等奖" ng-model="awardType1"/>
+                                    </td>
+                                    <td>
+                                        <input id="c_name_one" name="c_name_one" type="text" class="w200 my_txt"
+                                               value="" maxlength="50" ng-model="awardName1"/>
+                                    </td>
+                                    <td>
+                                        <!--<input id="c_cid_one" name="c_cid_one" type="text" class="w200 my_txt"-->
+                                               <!--value="" maxlength="50">-->
+                                        <select id="couponSelect1" ng-model="couponSelect1" ng-options="couponTemplateSimpleInfo.showInfo for couponTemplateSimpleInfo in couponTemplateSimpleInfos">
+                                        </select>
+                                    </td>
+                                    <!--<td>-->
+                                        <!--<input id="c_num_one" name="c_num_one" type="text" class="span1 w100 my_txt"-->
+                                               <!--value="">-->
+                                    <!--</td>-->
+                                    <td>
+                                        <input style="width: 40px;" id="c_rate_one" name="c_rate_one" type="text"
+                                               class="my_txt" value="" ng-model="probability1"/>%
+                                    </td>
+                                    <!--<td>-->
+                                        <!--<select style="width: 45px;" class="input-mini my_txt"-->
+                                                <!--name="pset[c_username_one]">-->
+                                            <!--<option value="0">否</option>-->
+                                            <!--<option value="1">是</option>-->
+                                        <!--</select>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<select style="width: 45px;" class="input-mini my_txt"-->
+                                                <!--name="pset[c_address_one]">-->
+                                            <!--<option value="0" selected="selected">否</option>-->
+                                            <!--<option value="1">是</option>-->
+                                        <!--</select>-->
+                                    <!--</td>-->
+                                </tr>
+
+                                <tr id="c_two">
+                                    <td class="my_td_center">
+                                        <input style="width:80px;" id="c_type_two" name="c_type_two" type="text"
+                                               class="my_txt" value="" placeholder="例如:二等奖" maxlength="10" ng-model="awardType2">
+                                    </td>
+                                    <td>
+                                        <input id="c_name_two" name="c_name_two" type="text" class="w200 my_txt"
+                                               value="" maxlength="50"  ng-model="awardName2">
+                                    </td>
+                                    <td>
+                                        <!--<input id="c_cid_two" name="c_cid_two" type="text" class="w200 my_txt"-->
+                                               <!--value="" maxlength="50">-->
+                                        <select id="couponSelect2" ng-model="couponSelect2" ng-options="couponTemplateSimpleInfo.showInfo for couponTemplateSimpleInfo in couponTemplateSimpleInfos">
+                                        </select>
+                                    </td>
+                                    <!--<td>-->
+                                        <!--<input id="c_num_two" name="c_num_two" type="text" class="my_txt w100" value="">-->
+                                    <!--</td>-->
+                                    <td>
+                                        <input style="width: 40px;" id="c_rate_two" name="c_rate_two" type="text"
+                                               class="my_txt" ng-model="probability2">%
+                                    </td>
+                                    <!--<td>-->
+                                        <!--<select style="width: 45px;" class="input-mini my_txt"-->
+                                                <!--name="pset[c_username_two]">-->
+                                            <!--<option value="0" selected="selected">否</option>-->
+                                            <!--<option value="1">是</option>-->
+                                        <!--</select>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<select style="width: 45px;" class="input-mini my_txt"-->
+                                                <!--name="pset[c_address_two]">-->
+                                            <!--<option value="0" selected="selected">否</option>-->
+                                            <!--<option value="1">是</option>-->
+                                        <!--</select>-->
+                                    <!--</td>-->
+                                </tr>
+                                <tr id="c_three">
+                                    <td class="my_td_center">
+                                        <input style="width:80px;" id="c_type_three" name="c_type_three" type="text"
+                                               class="my_txt" value="" maxlength="10" placeholder="例如:三等奖" ng-model="awardType3">
+                                    </td>
+                                    <td>
+                                        <input id="c_name_three" name="c_name_three" type="text" class="w200 my_txt"
+                                               value="" maxlength="50" ng-model="awardName3">
+                                    </td>
+                                    <td>
+                                        <!--<input id="c_cid_three" name="c_cid_three" type="text" class="w200 my_txt"-->
+                                               <!--value="" maxlength="50">-->
+                                        <select id="couponSelect3" ng-model="couponSelect3" ng-options="couponTemplateSimpleInfo.showInfo for couponTemplateSimpleInfo in couponTemplateSimpleInfos">
+                                        </select>
+                                    </td>
+                                    <!--<td>-->
+                                        <!--<input id="c_num_three" name="c_num_three" type="text" class="my_txt w100"-->
+                                               <!--value="">-->
+                                    <!--</td>-->
+                                    <td>
+                                        <input style="width: 40px;" id="c_rate_three" name="c_rate_three" type="text"
+                                               class="my_txt" ng-model="probability3">%
+                                    </td>
+                                    <!--<td>-->
+                                        <!--<select style="width: 45px;" class="input-mini my_txt"-->
+                                                <!--name="pset[c_username_three]">-->
+                                            <!--<option value="0" selected="selected">否</option>-->
+                                            <!--<option value="1">是</option>-->
+                                        <!--</select>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<select style="width: 45px;" class="input-mini my_txt"-->
+                                                <!--name="pset[c_address_three]">-->
+                                            <!--<option value="0" selected="selected">否</option>-->
+                                            <!--<option value="1">是</option>-->
+                                        <!--</select>-->
+                                    <!--</td>-->
+                                </tr>
+                                <tr id="c_four">
+                                    <td class="my_td_center">
+                                        <input style="width:80px;" id="c_type_four" name="c_type_four" type="text"
+                                               class="my_txt" value="" maxlength="10" placeholder="例如:四等奖" ng-model="awardType4">
+                                    </td>
+                                    <td>
+                                        <input id="c_name_four" name="c_name_four" type="text" class="w200 my_txt"
+                                               value="" maxlength="50" ng-model="awardName4">
+                                    </td>
+                                    <td>
+                                        <!--<input id="c_cid_four" name="c_cid_four" type="text" class="w200 my_txt"-->
+                                               <!--value="" maxlength="50">-->
+                                        <select id="couponSelect4"  ng-model="couponSelect4"  ng-options="couponTemplateSimpleInfo.showInfo for couponTemplateSimpleInfo in couponTemplateSimpleInfos">
+                                            <!--<option ng-model="couponTemplateSimpleInfo"></option>-->
+                                        </select>
+                                    </td>
+                                    <!--<td>-->
+                                        <!--<input id="c_num_four" name="c_num_four" type="text" class="my_txt w100"-->
+                                               <!--value="">-->
+                                    <!--</td>-->
+                                    <td>
+                                        <input style="width: 40px;" id="c_rate_four" name="c_rate_four" type="text"
+                                               class="my_txt" value="" ng-model="probability4">%
+                                    </td>
+                                    <!--<td>-->
+                                        <!--<select style="width: 45px;" class="input-mini my_txt"-->
+                                                <!--name="pset[c_username_four]">-->
+                                            <!--<option value="0" selected="selected">否</option>-->
+                                            <!--<option value="1">是</option>-->
+                                        <!--</select>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<select style="width: 45px;" class="input-mini my_txt"-->
+                                                <!--name="pset[c_address_four]">-->
+                                            <!--<option value="0" selected="selected">否</option>-->
+                                            <!--<option value="1">是</option>-->
+                                        <!--</select>-->
+                                    <!--</td>-->
+                                </tr>
+                                <tr id="c_five">
+                                    <td class="my_td_center">
+                                        <input style="width:80px;" id="c_type_five" name="c_type_five" type="text"
+                                               class="my_txt" value="" placeholder="例如:五等奖" maxlength="10" ng-model="awardType5">
+                                    </td>
+                                    <td>
+                                        <input id="c_name_five" name="c_name_five" type="text" class="w200 my_txt"
+                                               value="" maxlength="50" ng-model="awardName5">
+                                    </td>
+                                    <td>
+                                        <select id="couponSelect5" ng-model="couponSelect5" ng-options="couponTemplateSimpleInfo.showInfo for couponTemplateSimpleInfo in couponTemplateSimpleInfos">
+                                            <!--<option ng-model="couponTemplateSimpleInfo"></option>-->
+                                        </select>
+                                    </td>
+                                    <!--<td>-->
+                                        <!--<input id="c_num_five" name="c_num_five" type="text" class="my_txt w100"-->
+                                               <!--value="">-->
+                                    <!--</td>-->
+                                    <td>
+                                        <input style="width: 40px;" id="c_rate_five" name="c_rate_five" type="text"
+                                               class="my_txt" value="" ng-model="probability5">%
+                                    </td>
+                                    <!--<td>-->
+                                        <!--<select style="width: 45px;" class="input-mini my_txt"-->
+                                                <!--name="pset[c_username_five]">-->
+                                            <!--<option value="0" selected="selected">否</option>-->
+                                            <!--<option value="1">是</option>-->
+                                        <!--</select>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<select style="width: 45px;" class="input-mini my_txt"-->
+                                                <!--name="pset[c_address_five]">-->
+                                            <!--<option value="0" selected="selected">否</option>-->
+                                            <!--<option value="1">是</option>-->
+                                        <!--</select>-->
+                                    <!--</td>-->
+                                </tr>
+
+                                <tr id="c_six">
+                                    <td class="my_td_center">
+                                        <input style="width:80px;" id="c_type_six" name="c_type_six" type="text"
+                                               class="my_txt" value="" placeholder="例如:纪念奖" maxlength="10"
+                                               ng-model="awardType6">
+                                    </td>
+                                    <td>
+                                        <input id="c_name_six" name="c_name_six" type="text" class="w200 my_txt"
+                                               value="" maxlength="50" ng-model="awardName6">
+                                    </td>
+                                    <td>
+                                        <select id="couponSelect6" ng-model="couponSelect6" ng-options="couponTemplateSimpleInfo.showInfo for couponTemplateSimpleInfo in couponTemplateSimpleInfos">
+                                            <!--<option ng-model="couponTemplateSimpleInfo"></option>-->
+                                        </select>
+                                    </td>
+                                    <!--<td>-->
+                                        <!--<input id="c_num_six" name="c_num_six" type="text" class="my_txt w100" value="">-->
+                                    <!--</td>-->
+                                    <td>
+                                        <input style="width: 40px;" id="c_rate_six" name="c_rate_six" type="text"
+                                               class="my_txt" value=""  ng-model="probability6">%
+                                    </td>
+                                    <!--<td>-->
+                                        <!--<select style="width: 45px;" class="input-mini my_txt"-->
+                                                <!--name="pset[c_username_six]">-->
+                                            <!--<option value="0" selected="selected">否</option>-->
+                                            <!--<option value="1">是</option>-->
+                                        <!--</select>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<select style="width: 45px;" class="input-mini my_txt"-->
+                                                <!--name="pset[c_address_six]">-->
+                                            <!--<option value="0" selected="selected">否</option>-->
+                                            <!--<option value="1">是</option>-->
+                                        <!--</select>-->
+                                    <!--</td>-->
+                                </tr>
+                                <tr id="c_seven">
+                                    <td class="my_td_center">
+                                        <input style="width:80px;" id="c_type_seven" name="c_type_seven" type="text"
+                                               class="my_txt" value="" placeholder="例如:参与奖" maxlength="10" ng-model="awardType7">
+                                    </td>
+                                    <td>
+                                        <input id="c_name_seven" name="c_name_seven" type="text" class="w200 my_txt"
+                                               value="" maxlength="50" ng-model="awardName7">
+                                    </td>
+                                    <td>
+                                        <select id="couponSelect7" ng-model="couponSelect7" ng-options="couponTemplateSimpleInfo.showInfo for couponTemplateSimpleInfo in couponTemplateSimpleInfos">
+                                            <!--<option ng-model="couponTemplateSimpleInfo"></option>-->
+                                        </select>
+                                    </td>
+                                    <!--<td>-->
+                                    <!--<input id="c_num_six" name="c_num_six" type="text" class="my_txt w100" value="">-->
+                                    <!--</td>-->
+                                    <td>
+                                        <input style="width: 40px;" id="c_rate_seven" name="c_rate_seven" type="text"
+                                               class="my_txt" value="" ng-model="probability7">%
+                                    </td>
+                                    <!--<td>-->
+                                    <!--<select style="width: 45px;" class="input-mini my_txt"-->
+                                    <!--name="pset[c_username_six]">-->
+                                    <!--<option value="0" selected="selected">否</option>-->
+                                    <!--<option value="1">是</option>-->
+                                    <!--</select>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                    <!--<select style="width: 45px;" class="input-mini my_txt"-->
+                                    <!--name="pset[c_address_six]">-->
+                                    <!--<option value="0" selected="selected">否</option>-->
+                                    <!--<option value="1">是</option>-->
+                                    <!--</select>-->
+                                    <!--</td>-->
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="color:#999;" class="my_msg_div">
+                            其中模块七中一定要填入内容，谢谢参与或者人人都有奖的礼品
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" valign="top">中奖次数上线</td>
+                    <td>
+                        <div class="input-append">
+                            <input type="text" class="my_txt" name="award_times" value="" ng-model="prizeUpper">
+                            <span class="add-on">次</span>
+                        </div>
+                        <div class="my_msg">单个用户最多共享几个奖项，<!--0为不限制，-->推荐设置为1次!</div>
+                    </td>
+                </tr>
+                <tr>
+                <tr>
+                    <td align="right" valign="top">最高玩游戏次数上线</td>
+                    <td>
+                        <div class="input-append">
+                            <input type="text" class="my_txt" name="award_times" value="" ng-model="playNumUpper">
+                            <span class="add-on">次</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" valign="top">基础刮卡次数</td>
+                    <td>
+                        <div class="input-append">
+                            <input type="text" class="my_txt" name="number_times" value="" ng-model="funPrize">
+                            <span class="add-on">次</span>
+                        </div>
+                        <!--<div class="my_msg">抽奖总次数限制,0为不限制</div>-->
+                    </td>
+                </tr>
+                <!--<tr>-->
+                    <!--<td align="right" valign="top" width="130">每人每天最多抽奖次数</td>-->
+                    <!--<td>-->
+                        <!--<div class="input-append">-->
+                            <!--<input type="text" class="my_txt" name="most_num_times" value="1">-->
+                            <!--<span class="add-on">次</span>-->
+                        <!--</div>-->
+                        <!--<div class="my_msg">抽奖总次数不为0时，必须小于等于抽奖总次数！抽完总数就不能抽了! 可以抽奖天数 = 总数/每天抽奖次数!</div>-->
+                    <!--</td>-->
+                <!--</tr>-->
+                <tr>
+                    <td align="right" valign="top">分享加机会</td>
+                    <td>
+                        <input type="text" name="share_num" value="" ng-model="shareNum">次
+                        <div class="my_msg">分享给朋友，朋友点击了之后加机会</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" valign="top">关注公众号图文链接</td>
+                    <td>
+                        <div class="input-append">
+                            <input type="text" class="my_txt" name="focus_link" ng-model="focusLink">
+                        </div>
+                        <!--<div class="my_msg">单个用户最多共享几个奖项，&lt;!&ndash;0为不限制，&ndash;&gt;推荐设置为1次!</div>-->
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" valign="top">未领取优惠券过期时间，以秒作为单位</td>
+                    <td>
+                        <input type="text" name="share_num" value="" ng-model="activationTime" >秒
+                    </td>
+                </tr>
+                <!--<tr>-->
+                    <!--<td align="right">显示奖品数量</td>-->
+                    <!--<td>-->
+
+                        <!--<label class="my_checkbox">-->
+                            <!--<input type="radio" name="show_num" value="1" checked="checked">-->
+                            <!--显示-->
+                        <!--</label>-->
+                        <!--<label class="my_checkbox">-->
+                            <!--<input type="radio" name="show_num" value="2">-->
+                            <!--不显示-->
+                        <!--</label>-->
+
+                    <!--</td>-->
+                <!--</tr>-->
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-success center-block"   id="step3" > 下一步  </button>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="shareSetting" aria-labelledby="share-tab">
+            <table class="my_common_table col_2">
+                <tbody>
+                <tr>
+                <td align="right" valign="top">分享标题</td>
+                <td>
+                <input type="text" id="share_title" class="my_txt" placeholder="" name="share_title"
+                value="" ng-model="shareTitle">
+                <div class="my_msg">分享的文字，用户显示分享给用户的介绍!</div>
+                </td>
+                </tr>
+                <tr>
+                <td align="right" valign="top">分享描述</td>
+                <td>
+                <textarea style="width:40%;height:60px;" name="share_desc" class="my_textarea" cols="60" ng-model="shareIntroduction">亲，欢迎参加大转盘抽奖活动，祝您好运哦！！ 亲，需要绑定账号才可以参加哦</textarea>
+                </td>
+                </tr>
+                <tr>
+                <td align="right" valign="top" ng-model="shareLink">关注公众号图文链接</td>
+                <td>
+                <input type="text" id="share_url" class="my_txt" placeholder="" name="share_url" value="" ng-model="focusLink">
+
+                <div class="my_msg">分享的链接【非必填】! 推荐用微信平台的素材库，转成短地址。<a target="_blank" href="http://www.dwz.cn/">短网址转换</a>
+                <br><span style="color:red;">注：设置了此链接后分享加机会功能将会失效！</span>
+                </div>
+                </td>
+                </tr>
+                <tr>
+                    <td align="right" valign="top">活动分享图片<span class="red">*</span></td>
+                    <td>
+                        <div style="display:block; margin-top:5px;" class="input-append clearfix">
+                            <input type="text" value=""
+                                   id="upload-image-url-share_img" class="my_txt" autocomplete="off" style="float:left" ng-model="sharePicUrl">
+                            <input type="hidden" value="" name="share_img_old" id="upload-image-url-share_img-old">
+                            <button class="btn" style="display:inline-block;margin-left:10px;" type="button"
+                                    id="upload-image-share_img" value="选择图片">
+                            </button>
+                        </div>
+                        <div id="upload-image-preview-share_img" style="margin-top:10px;"><img
+                                    src="/upload/upload_73c3bcc1c267bbf8046368576c824173.jpg" width="100" onload="thumb(this)"></div>
+
+                        <div class="my_msg_div">
+                            <div style="color:#666;">图片尺寸720*400，只支持jpg,png,jpeg图片</div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" valign="top">商家LOGO</td>
+                    <td>
+                        <div style="display:block; margin-top:5px;" class="input-append clearfix">
+
+                            <input type="text" value="" name="merchant_logo" id="upload-image-url-merchant_logo"
+                                   class="ke-input-text"  autocomplete="off" readonly="readonly" ng-model="merchantPicUrl">
+                            <input type="hidden" value="" name="merchant_logo_old"
+                                   id="upload-image-url-merchant_logo-old">
+                            <button class="btn" style="display:inline-block;margin-left:10px;" type="button"
+                                    id="upload-image-merchant_logo" value="选择图片">
+                            </button>
+                        </div>
+                        <div id="upload-image-preview-merchant_logo" style="margin-top:10px;"><img
+                                    src="/bigwheel/img/module-nopic-small.jpg" width="100" onload="thumb(this)"></div>
+                        <div class="my_msg_div">
+                            <div style="color:#666;">图片尺寸720*146，只支持jpg,png,jpeg图片</div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" valign="top">广告链接</td>
+                    <td>
+                        <input type="text" class="my_txt" placeholder="" name="adlink" value="" ng-model="adLink">
+
+                        <div class="my_msg">请以http://或https://开头</div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-success center-block"   id="submitActivity" ng-click="submitOneActivity()"> 提交  </button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

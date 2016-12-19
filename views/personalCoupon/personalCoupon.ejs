@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta id="OpenId" name="openId" content="<%=OpenId %>"/>
+    <meta id="NickName" name="NickName" content="<%=NickName %>"/>
+    <meta id="Location" name="Location" content="<%=Location %>"/>
+    <link href="../../css/bootstrap.css" rel="stylesheet" type="text/css" media='all'>
+    <link href="../../css/personalCoupon.css" rel="stylesheet" type="text/css" media='all'>
+    <script src="../../js/jquery-2.1.1.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <title>个人优惠券</title>
+    <script type="text/javascript">
+        var couponsInfo = [];
+        var whetherRegistration=false;
+        var openId=$("#OpenId")[0].content;
+        $(document).ready(function() {
+            $(function () {
+                var data = {};
+                data.openId =openId ;
+                //该处显示所有劵截至日期大于当前日期的劵
+                $.ajax({
+                    url: '/personalcoupon/getPersonalCouponInfo',
+                    type: 'post',
+                    data: data,
+                    dataType: 'html',
+                    timeout: 10000,
+                    error: function (err) {
+                        alert("获取优惠券信息失败！" + JSON.stringify(err));
+                    },
+                    success: function (msg) {
+                        msg = JSON.parse(msg);
+                        if (msg.status == true) {
+                            var couponMsg = msg.msg;
+                            //var couponMsg=JSON.parse(msg.msg);
+                            if (couponMsg.status == true) {
+                                whetherRegistration=true;
+                                var coupons = couponMsg.coupons;
+                                //couponsInfo = JSON.parse(coupons);
+                                couponsInfo = JSON.parse(coupons).couponinfos;
+                                var len = couponsInfo.length;
+                                if (len == 0) {
+                                    var text = "抱歉，您还没有任何优惠券信息~"
+                                    $("#couponsInfo").append(text);
+                                } else {
+                                    for (var k = 0; k < len; k++) {
+                                        var coupon = couponsInfo[k];
+                                        var couponId = '' + coupon.COUPONCODE;
+                                        var beginYear = new Date(coupon.DATEEFFECTIVE).getFullYear();
+                                        var beginMonth = new Date(coupon.DATEEFFECTIVE).getMonth();
+                                        var beginDay = new Date(coupon.DATEEFFECTIVE).getDate();
+                                        var dateString = beginYear + "年" + (beginMonth + 1) + "月" + beginDay + "日";
+                                        var starttimes = new Date(beginYear, beginMonth, beginDay).getTime();
+                                        var date = new Date();
+                                        var now = date.getTime();
+                                        var a = (now - starttimes);
+                                        var paragraph = [];
+                                        console.log(coupon.TEMPLATEDESCRIPTION);
+                                        if (coupon.TEMPLATEDESCRIPTION.indexOf("\n")) {
+                                            paragraph = coupon.TEMPLATEDESCRIPTION.split("\n");
+                                            console.log(paragraph.length);
+                                            var descript = "";
+                                            for (var u = 0; u < paragraph.length; u++) {
+                                                descript += '<p>' + paragraph[u] + '</p>';
+                                            }
+                                        } else {
+                                            descript = coupon.TEMPLATEDESCRIPTION;
+                                        }
+                                        if (a < 0) {//该优惠券还没到开始使用日期（5，6），之后分满减和现金劵
+                                            if (coupon.TYPECODE == 0) {
+                                                var text = '<div class="stamp stamp05">' +
+                                                        '<div class="par"><p>' + coupon.TEMPLATECONTENT + '(' + dateString + '0时0点0分开始使用)</p><sub class="sign">￥</sub><span>' + coupon.COUPONVALUE + '</span><p>现金劵</p></div>' +
+                                                        '<div class="copy">副券<br/>' + descript + '</div> <i></i> </div>';
+                                                $('#couponsInfo').append(text);
+                                            } else {
+                                                var text = '<div class="stamp stamp06">' +
+                                                        '<div class="par"><p>' + coupon.TEMPLATECONTENT + '(' + dateString + '0时0点0分开始使用)</p><p><sub class="sign">￥</sub><span>' + coupon.COUPONVALUE + '</p><sub>优惠券</p><p>订单满' + coupon.COUPONBASE + '元</p></div>' +
+                                                        '<div class="copy">副券<br/>' + descript + '</div> <i></i> </div>';
+                                                $('#couponsInfo').append(text);
+                                            }
+                                        } else {
+                                            if (coupon.STATUS == 1) {
+                                                //已经使用的劵
+                                                if (coupon.TYPECODE == 0) {
+                                                    var text = '<div class="stamp stamp03" >' +
+                                                            '<div class="par"><p><span style="color:#0f0f0f">已使用</span></p><sub class="sign">￥</sub><span>' + coupon.COUPONVALUE + '</span><p>现金劵</p></div>' +
+                                                            '<div class="copy">副券<br/>' + descript + '</div><i></i></div>';
+                                                    $('#couponsInfo').append(text);
+                                                } else {
+                                                    var text = '<div class="stamp stamp04" >' +
+                                                            '<div class="par"><p><span style="color:#0f0f0f; ">已使用</span></p><sub class="sign">￥</sub><span>' + coupon.COUPONVALUE + '</span><p>优惠券</p><p>订单满' + coupon.COUPONBASE + '元</p></div>' +
+                                                            '<div class="copy">副券<br/>' + descript + '</div><i></i></div>';
+                                                    $('#couponsInfo').append(text);
+                                                }
+                                            } else if (coupon.STATUS == 0) {
+                                                //未使用的劵
+                                                if (coupon.TYPECODE == 0) {
+                                                    var text = '<div class="stamp stamp01" onclick=\"javascript:getQRInfo(' + k + ')\">' +
+                                                            '<div class="par"><p>' + coupon.TEMPLATECONTENT + '</p><sub class="sign">￥</sub><span>' + coupon.COUPONVALUE + '</span><p>现金劵</p></div>' +
+                                                            '<div class="copy">副券<br/>' + descript + '</div> <i></i> </div>';
+                                                    $('#couponsInfo').append(text);
+                                                } else {
+                                                    var text = '<div class="stamp stamp02" onclick=\"javascript:getQRInfo(' + k + ')\">' +
+                                                            '<div class="par"><p>' + coupon.TEMPLATECONTENT + '</p><p><sub class="sign">￥</sub><span>' + coupon.COUPONVALUE + '</span><p>优惠券</p><p>订单满' + coupon.COUPONBASE + '元</p></div>' +
+                                                            '<div class="copy">副券<br/>' + descript + '</div> <i></i> </div>';
+                                                    $('#couponsInfo').append(text);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            } else {
+                                whetherRegistration=false;
+                                var coupons = couponMsg.coupons;
+                                //couponsInfo = JSON.parse(coupons);
+                                couponsInfo = JSON.parse(coupons).couponinfos;
+                                var len = couponsInfo.length;
+                                if (len == 0) {
+                                    var text = "抱歉，您还没有任何优惠券信息~"
+                                    var word="注册"
+                                    var htmll='<p>'+text+'</p><a href="../personalcoupon/register?openId='+openId+'">'+word+"</a>";
+                                    console.log(htmll);
+                                    $("#couponsInfo").append(htmll);
+                                } else {
+                                    for (var k = 0; k < len; k++) {
+                                        var coupon = couponsInfo[k];
+                                        var couponId = '' + coupon.COUPONCODE;
+                                        var beginYear = new Date(coupon.DATEEFFECTIVE).getFullYear();
+                                        var beginMonth = new Date(coupon.DATEEFFECTIVE).getMonth();
+                                        var beginDay = new Date(coupon.DATEEFFECTIVE).getDate();
+                                        var dateString = beginYear + "年" + (beginMonth + 1) + "月" + beginDay + "日";
+                                        var starttimes = new Date(beginYear, beginMonth, beginDay).getTime();
+                                        var date = new Date();
+                                        var now = date.getTime();
+                                        var a = (now - starttimes);
+                                        var paragraph = [];
+                                        console.log(coupon.TEMPLATEDESCRIPTION);
+                                        if (coupon.TEMPLATEDESCRIPTION.indexOf("\n")) {
+                                            paragraph = coupon.TEMPLATEDESCRIPTION.split("\n");
+                                            console.log(paragraph.length);
+                                            var descript = "";
+                                            for (var u = 0; u < paragraph.length; u++) {
+                                                descript += '<p>' + paragraph[u] + '</p>';
+                                            }
+                                        } else {
+                                            descript = coupon.TEMPLATEDESCRIPTION;
+                                        }
+                                        if (coupon.TYPECODE == 0) {
+                                            var text = '<div class="stamp stamp03" onclick=\"javascript:register()\">' +
+                                                    '<div class="par"><p>' + coupon.TEMPLATECONTENT + '</p><sub class="sign">￥</sub><span>' + coupon.COUPONVALUE + '</span><p>现金劵</p></div>' +
+                                                    '<div class="copy">待激活<br/>' + descript + '</div> <i></i> </div>';
+                                            $('#couponsInfo').append(text);
+                                        } else {
+                                            var text = '<div class="stamp stamp04" onclick=\"javascript:register()\">' +
+                                                    '<div class="par"><p>' + coupon.TEMPLATECONTENT + '</p><p><sub class="sign">￥</sub><span>' + coupon.COUPONVALUE + '</span><p>优惠券</p><p>订单满' + coupon.COUPONBASE + '元</p></div>' +
+                                                    '<div class="copy">待激活<br/>' + descript + '</div> <i></i> </div>';
+                                            $('#couponsInfo').append(text);
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            alert("获取优惠券信息失败！" + JSON.stringify(msg.msg));
+                        }
+                    }
+                });
+            });
+        });
+        function getQRInfo(k){
+            couponId=couponsInfo[k].COUPONCODE;
+            var nickName=$("#NickName")[0].content;
+            var location=$("#Location")[0].content;
+            window.location.href= "/personalcoupon/getPersonalCouponQR?CouponId="+couponId+"&NickName="+nickName+"&Location="+location;
+        }
+        function register(){
+            console.log("here");
+            window.location.href= "/personalcoupon/register?openId="+openId;
+        }
+    </script>
+</head>
+<body>
+<div class="demo-container demo">
+
+    <div class="demo" id="couponsInfo" style="text-align: center">
+    </div>
+</div>
+
+
+</body></html>

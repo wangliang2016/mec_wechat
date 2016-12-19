@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" id="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta id="activityId" name="activityId" content="<%=activityId %>"/>
+    <meta id="OpenId" name="OpenId" content="<%=OpenId %>"/>
+    <link rel="stylesheet" type="text/css" href="../../scratchCard/style.css">
+    <script type="text/javascript" src="../../js/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="../../scratchCard/wScratchPad.min.js"></script>
+    <!--<script type="text/javascript" src="../../gameTemplate1.js" ></script>-->
+    <script type="text/javascript" src="../../js/jweixin-1.0.0.js"></script>
+    <title>刮刮卡活动开始了</title>
+    <script>
+        $(document).ready(function() {
+            var activityId = $("#activityId")[0].content;
+            var openId = $('#OpenId')[0].content;
+            var playStatus = false;
+            var whetherRegister = false;
+            var activityInfo = {};
+            var gameInfo = {};
+            var activityInfo={};
+            var subscriberInfo={};
+            var activityPlayInfo={};
+            var gameInfo={};
+            var tele;
+            var userid;
+            var prizes = [];
+            var sharePic;
+            var shareTitle;
+            var shareIntro;
+            var gameAddress ;
+            $.ajax({
+                url: '../activity/queryTotalActivityInfo',
+                type: 'post',
+                data: {activityId:activityId},
+                async: false,
+                dataType: 'html',
+                timeout: 10000,
+                success: function (data) {
+                   data=JSON.parse(data);
+                    if(data.status) {
+                        activityInfo = data.msg.activity;
+                        gameInfo = data.msg.game;
+                        if(activityInfo.ADLINK==null){
+                            $('#adShow').hide();
+                        }else{
+                            $('#adHref').attr('href',activityInfo.ADLINK);
+                            $('#adShow').show();
+                        }
+                        $('#focusLink').attr('href',activityInfo.FOCUSLINK);
+                        //console.log($scope.activityInfo);
+                        $('#backgroundUrl').attr('style',"width: 100%;min-height: 100%;background:url("+activityInfo.LOTTERYBACKGROUND.toString()+") no-repeat left top;background-size: 100% auto;");
+                        $('#wordUrl').attr('style',"position: absolute;left: 2rem;top: 2.175rem;width: 11.2rem;height: 7.45rem;z-index: 2;background:url("+activityInfo.LOTTERYWORD.toString()+") no-repeat;background-size: 100% auto;");
+                        $('#adPic').attr('src',activityInfo.ADPIC);
+                        $('#auctionInfo').text(activityInfo.AUCTIONINFO);
+                        $('#repeatResponse').text(activityInfo.REPEATRESPONSE);
+                        sharePic = activityInfo.SHAREPIC;
+                        shareTitle = activityInfo.SHARETITLE;
+                        shareIntro = activityInfo.SHAREINTRO;
+                        gameAddress = activityInfo.GAMEADDRESS;
+                        for (var i = 0; i < 7; i++) {
+                            var title = "MODULETITLE" + i;
+                            var content = "MODULECONTENT" + i;
+                            var num = "MODULEGOODSNUM" + i;
+                            if (gameInfo[content] != null) {
+                                var prize = {};
+                                prize.title = gameInfo[title];
+                                prize.content = gameInfo[content];
+                                prize.num = gameInfo[num];
+                                prizes.push(prize);
+                                var text="";
+                                text+="<li><div >"+prize.title+"</div><div>"+prize.content+"</div><div>"+prize.num+"</div></li>";
+                                $("#prizes").append(text);
+                            }
+                        }
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function (data) {
+                    alert(data);
+                }
+            })
+            //获取当前游戏状态
+            $.ajax({
+                url: '../subscriber/queryActivityPlayStatusByOpenId',
+                type: 'post',
+                async: false,
+                dataType: 'html',
+                timeout: 10000,
+                data: {openId: openId, activityId: activityId},
+                success: function (data) {
+                    if(JSON.parse(data).status==true){
+                        data=JSON.parse(data).msg;
+                        if ((data.subscriberStatus == true) && (data.activityStatus == true)) {
+                            //该用户已经注册并且已经玩过该游戏
+                            subscriberInfo = data.subscribeMsg;
+                            activityPlayInfo = data.activtyMsg;
+                            var havePlayedNum = activityPlayInfo.HAVEPLAYEDNUM;
+                            var playtimes = activityPlayInfo.PLAYTIMES;
+                            var totalNum = playtimes;
+                            var useNum = havePlayedNum;
+                            whetherRegister = true;
+                            tele = subscriberInfo.TELEPHONE;
+                            userid = subscriberInfo.USERID;
+                            if (useNum < totalNum) {
+                                playStatus = true;
+                            }
+                            $('#totalNum').text(totalNum);
+                            $('#useNum').text(useNum);
+                        } else {
+                            if ((data.subscriberStatus == true) && (data.activityStatus == false) && (data.activtyMsg == null)) {
+                                //该用户已经注册但没有玩过该游戏
+                                subscriberInfo = data.subscribeMsg;
+                                var totalNum = activityInfo.FUNPLAYNUM;
+                                var useNum = 0;
+                                whetherRegister = true;
+                                tele = subscriberInfo.TELEPHONE;
+                                userid = subscriberInfo.USERID;
+                                if (totalNum > 0) {
+                                    playStatus = true;
+                                }
+                                $('#totalNum').text(totalNum);
+                                $('#useNum').text(useNum);
+                            } else {
+                                if ((data.subscriberStatus == false) && (data.activityStatus == false) && (data.subscribeMsg == null)&&(data.activtyMsg == null)) {
+                                    //该用户没有注册
+                                    var totalNum = activityInfo.FUNPLAYNUM;
+                                    var useNum = 0;
+                                    if (totalNum > 0) {
+                                        playStatus = true;
+                                    }
+                                    $('#totalNum').text(totalNum);
+                                    $('#useNum').text(useNum);
+                                } else {
+                                    if((data.subscriberStatus == false) && (data.activityStatus == true) && (data.subscribeMsg == null)){
+                                     //即该用户虽然没有注册过但是玩过该游戏
+                                        activityPlayInfo = data.activtyMsg;
+                                        var havePlayedNum = activityPlayInfo.HAVEPLAYEDNUM;
+                                        var playtimes = activityPlayInfo.PLAYTIMES;
+                                        var totalNum = playtimes;
+                                        var useNum = havePlayedNum;
+                                        whetherRegister = false;
+                                        tele = subscriberInfo.TELEPHONE;
+                                        userid = subscriberInfo.USERID;
+                                        if (useNum < totalNum) {
+                                            playStatus = true;
+                                        }else{
+                                            playStatus=false;
+                                        }
+                                        $('#totalNum').text(totalNum);
+                                        $('#useNum').text(useNum);
+                                    }
+                                }
+                            }
+                        }
+
+                    }else{
+                        alert(JSON.parse(data).msg);
+                    }
+                },
+                error: function (data) {
+                    alert(data);
+                }
+            });
+//scrtch点击事件后判断能否参与
+//            $('#scratchClick').click(function () {
+                if (playStatus == false) {
+                    $("#ggk1c").html("Sorry，您无法进行抽奖");
+                } else {
+                    $(function () {
+                        window.sncode = "";
+                        window.prize = "";
+                        var goon = true;
+                        var iszj = 0;
+                        var flag = true;
+                        $("#ggk1c").html(prize);//提示
+                        $('#ggk1').wScratchPad({
+                            size: 15, // 笔刷的大小/划痕
+                            bg: '', // 背景(图片路径或十六进制颜色)
+                            fg: '#c9c7c7', // 前景(图片路径或十六进制颜色)
+                            cursor: '', // 设置光标(图片路径或样式属性)
+                            scratchMove: function (e, p) {
+                                if (flag) {
+                                    flag = false;
+                                    link = '';
+                                    if (whetherRegister == true) {
+                                        var data = {};
+                                        data.activityId = activityId;
+                                        data.gameInfo =gameInfo;
+                                        data.userCode = tele;
+                                        data.userId = userid;
+                                        data.openId =openId;
+                                        $.ajax({
+                                            url: '/gameresult/resultWithRegister',
+                                            type: 'post',
+                                            data: data,
+                                            async: false,
+                                            dataType: 'html',
+                                            timeout: 10000,
+                                            success: function (data) {
+                                                //data.success表示是否获得奖品
+                                                goon = false;
+                                                //count ++;
+                                                //credit -= bonus;
+                                                //$("#credit").text(credit);
+                                                /*if($("#count").length>0){
+                                                 $("#count").text(parseInt($("#count").text())+1);
+                                                 }*/
+                                                //将已刮次数加一
+                                                if ($("#useNum").length > 0) {
+                                                    $("#useNum").text(parseInt($("#useNum").text()) + 1)
+                                                }
+                                                data=JSON.parse(data);
+                                                if (data.success) {
+                                                    $("#ggk1c").html(data.name);//提示
+                                                    $("#sncode").text(data.sn);
+                                                    window.sncode = data.sn;
+                                                    window.prize = data.name;
+                                                    link = data.link;
+                                                    $("#jp_type").html(data.name)
+                                                    $("#jp_name").html(data.award);
+                                                    //$("#jp_code").html('兑奖码：' + data.sn);
+                                                    if (data.prize_username) {
+                                                        $("#realname").removeClass('none');
+                                                        $("#realname").attr("data-value", data.prize_username);
+                                                    }
+                                                    if (data.prize_address) {
+                                                        $("#address").removeClass('none');
+                                                        $("#address").attr("data-value", data.prize_address);
+                                                    }
+                                                    $(".winning_form").hide();
+                                                    //$scope.personInfoShow = false;
+                                                } else {
+                                                    window.prize = '谢谢参与';
+                                                    $("#ggk1c").html(data.name);//提示
+//                                                    $('#more').show();
+//                                                    setTimeout('time_flood()', 1000);
+                                                }
+                                            },
+                                            error:function(data){
+                                                if ($("#useNum").length > 0) {
+                                                    $("#useNum").text(parseInt($("#useNum").text()) + 1);
+                                                    window.prize = '谢谢参与';
+                                                    $("#ggk1c").html(data.name);//提示
+                                                }
+                                            }
+                                        });
+                                    } else {
+                                        var data = {};
+                                        data.activityId = activityId;
+                                        data.openId =openId;
+                                        //默认不能是1等奖
+                                        console.log(JSON.stringify(data));
+                                        $.ajax({
+                                            url: '/gameresult/resultWithoutRegister',
+                                            type: 'post',
+                                            data: data,
+                                            async: false,
+                                            dataType: 'html',
+                                            timeout: 10000,
+                                            success: function (data) {
+                                                data=JSON.parse(data);
+                                                //data.success表示是否获得奖品
+                                                goon = false;
+                                                //count ++;
+                                                //credit -= bonus;
+                                                //$("#credit").text(credit);
+                                                /*if($("#count").length>0){
+                                                 $("#count").text(parseInt($("#count").text())+1);
+                                                 }*/
+                                                //将已刮次数加一
+                                                if ($("#useNum").length > 0) {
+                                                    $("#useNum").text(parseInt($("#useNum").text()) + 1)
+                                                }
+                                                if (data.success) {
+                                                    $("#ggk1c").html(data.name);//提示
+                                                    $("#sncode").text(data.sn);
+                                                    window.sncode = data.sn;
+                                                    window.prize = data.name;
+                                                    link = data.link;
+                                                    $("#jp_type").html(data.name)
+                                                    $("#jp_name").html(data.award);
+                                                    $("#jp_code").html('兑奖码：' + data.sn);
+                                                    if (data.prize_username) {
+                                                        $("#realname").removeClass('none');
+                                                        $("#realname").attr("data-value", data.prize_username);
+                                                    }
+                                                    if (data.prize_address) {
+                                                        $("#address").removeClass('none');
+                                                        $("#address").attr("data-value", data.prize_address);
+                                                    }
+                                                    //$scope.personInfoShow = true;
+                                                } else {
+                                                    window.prize = '谢谢参与';
+                                                    $("#ggk1c").html(data.name);//提示
+//                                                    $('#more').show();
+//                                                    setTimeout('time_flood()', 1000);
+                                                }
+                                            },
+                                            error:function(data){
+                                                if ($("#useNum").length > 0) {
+                                                    $("#useNum").text(parseInt($("#useNum").text()) + 1);
+                                                    window.prize = '谢谢参与';
+                                                    $("#ggk1c").html(data.name);//提示
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                                if (goon == false) {
+                                    if (p > 30) {
+                                        this.clear();
+                                        if (window.prize != '' && window.prize != '谢谢参与') {
+                                            $("canvas").css("display", "none");
+                                            $(".zhongjiang").css("display", "block");
+                                        } else {
+                                            $("canvas").css("display", "none");
+                                            $(".weizhongjiang").css("display", "block");
+                                        }
+                                        $('.Scratch_btn').show();
+                                    }
+                                }
+                            }
+                        });
+
+                        $('.close').click(function () {
+                            $(this).parent().hide();
+                        });
+                        /*$('.share').click(function(){
+                         $('.share').hide();
+                         });*/
+                        $('.receive').click(function () {
+                            $('.receive').hide();
+                        });
+                        $('.btn').click(function () {
+                            $(this).parents('div.layer').hide();
+                        });
+                        $('.try').click(function () {
+                            $('.Scratch_btn').show();
+                        });
+                        $('.form_btn').click(function () {
+                            var nameval = $("#realname").attr("data-value");
+                            var addressval = $("#address").attr("data-value");
+                            var realname = $('#realname').val();
+                            var phone = $('#phone').val();
+                            var address = $('#address').val();
+                            if (realname == '' && nameval == 1) {
+                                alert('请输入姓名！');
+                                $('#realname').focus();
+                                return false;
+                            }
+                            if (!/^1[3578][0-9]{9}$/.test(phone)) {
+                                alert('请输入正确的手机号！');
+                                $('#phone').focus();
+                                return false;
+                            }
+//                            if (address == '' && addressval == 1) {
+//                                alert('请输入您的收货地址!');
+//                                $('#address').focus();
+//                                return false;
+//                            }
+                            var submitData = {
+                                couponcode: $("#sncode").text(),
+                                merchantcode: "20020",
+                                mobile: phone,
+                                openId: openId,
+                                activityId: activityId,
+                                code:$("#checkCode").val()
+                            };
+
+                            $.post('/gameresult/confirmWithPhone', submitData, function (data) {
+                                if (data.success == true) {
+                                    $('.zhongjiang').hide();
+                                    $('.receive').show();
+                                    if (link) {
+                                        alert('提交成功');
+                                        location.href = link;
+                                    } else {
+                                        setTimeout(function () {
+                                            location.reload();
+                                        }, 2000);
+                                    }
+                                } else {
+                                    alert(data.msg);
+                                }
+                                $('#more').show();
+                                setTimeout('time_flood()', 1000);
+                            }, "json")
+                        });
+                    })
+                }
+//            });
+//微信分享内容
+            //分享连接
+            var lineLink = gameAddress.substring(0,gameAddress.indexOf('&')-1)+"&shareid="+openId+gameAddress.substring(gameAddress.indexOf('&'));
+            //图片连接
+            var Url = sharePic;
+            //分享内容
+            var descContent = shareIntro;
+            var shareTitle =shareTitle;
+
+            wx.config({
+                appId: 'wx5c30177c4f734b4c',
+                timestamp: '1477994209',
+                nonceStr: 'sde4b6VwdI6VqaPB',
+                signature: '9ad92ecb509492cb9b1712a11549a587df85ebab',
+                jsApiList: [
+                    // 所有要调用的 API 都要加到这个列表中
+                    'onMenuShareTimeline',
+                    'onMenuShareAppMessage',
+                    'hideMenuItems'
+                ]
+
+            });
+            wx.checkJsApi({
+                jsApiList: [
+                    'onMenuShareTimeline',
+                    'onMenuShareAppMessage'
+
+                ], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+                success: function (res) {
+                    // alert(res);
+                    //以键值对的形式返回，可用的api值true，不可用为false
+                    // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"
+                }
+            });
+
+            wx.ready(function () {  // 在这里调用 API\
+                wx.hideMenuItems({
+                    menuList: [
+                        'menuItem:share:qq', // 阅读模式
+                        'menuItem:share:facebook', // 分享到朋友圈
+                        'menuItem:openWithQQBrowser', // 分享到朋友圈
+                        'menuItem:openWithSafari', // 分享到朋友圈
+
+                        'menuItem:share:weiboApp' // 复制链接
+                    ] // 要隐藏的菜单项，所有menu项见附录3
+                });
+                //分享到朋友圈
+                wx.onMenuShareTimeline({
+                    title: shareTitle, // 分享标题
+                    link: lineLink, // 分享链接
+                    imgUrl: Url, // 分享图标
+                    success: function () {
+                        // 用户确认分享后执行的回调函数
+
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                    }
+                });
+                //分享到朋友
+                wx.onMenuShareAppMessage({
+                    title: shareTitle, // 分享标题
+                    desc: descContent, // 分享描述
+                    link: lineLink, // 分享链接
+                    imgUrl: Url, // 分享图标
+                    type: '', // 分享类型,music、video或link，不填默认为link
+                    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                    success: function () {
+                        // 用户确认分享后执行的回调函数
+
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                    }
+                });
+                wx.showOptionMenu();
+            });
+        });
+
+    </script>
+    <script type="text/javascript">
+        $(function(){
+            if(($('body').innerHeight() + $('.foot').height()) < $('html').innerHeight()){
+                $('body').height($('html').innerHeight());
+            }else{
+                $('body').css('padding-bottom','2rem')
+            }
+        });
+        $(function(){
+            var InterValObj; //timer变量，控制时间
+            var count = 60; //间隔函数，1秒执行
+            var curCount;//当前剩余秒数
+            var code = ""; //验证码
+            var codeLength = 6;//验证码长度
+            var phoneWhether=true;
+            $("#phone").onblur=function() {
+                var tel = /^1[3|4|5|7|8][0-9]\d{8}$/;
+                var phoneWhether = true;
+                if (!tel.test($("#phone").val())) {
+                    alert('手机号不正确');
+                    phoneWhether = false;
+                }
+            };
+            $('#btnSendCode').click(function(){
+                curCount = count;
+                console.log($("#phone").val());
+                if($("#phone").val() != ""){
+                    //产生验证码
+                    for (var i = 0; i < codeLength; i++) {
+                        code += parseInt(Math.random() * 9).toString();
+                    }
+                    //设置button效果，开始计时
+                    $("#btnSendCode").attr("disabled", "true");
+                    $("#btnSendCode").val("请在" + curCount + "秒内输入验证码");
+                    InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+                    if(curCount>0&&phoneWhether){
+                        $.ajax({
+                            url: '/gameresult/getTelCode',
+                            type: 'get',
+                            data: {TELEPHONE:$('#phone').val()},
+                            dataType: 'html',
+                            timeout: 10000,
+                            error: function (err) {
+                                alert("网络存在问题，待会" + JSON.stringify(err));
+                            },
+                            success: function (msg) {
+
+                            }
+                        })
+                        sendWhether=false;
+                    }
+                }else{
+                    alert("手机号码不能为空！");
+                }
+            });
+//timer处理函数
+            function SetRemainTime() {
+                if (curCount == 0) {
+                    window.clearInterval(InterValObj);//停止计时器
+                    $("#btnSendCode").removeAttr("disabled");//启用按钮
+                    $("#btnSendCode").val("重新发送验证码");
+                    code = ""; //清除验证码。如果不清除，过时间后，输入收到的验证码依然有效
+                }
+                else {
+
+                    curCount--;
+                    $("#btnSendCode").val("请在" + curCount + "秒内输入验证码");
+                }
+            }
+        })
+    </script>
+    <script type="text/javascript">
+	!function(){     
+		//rem  计算方式  px/40 
+		function setFontSize(){            	
+			document.documentElement.style.fontSize = document.documentElement.clientWidth /16 +"px";
+		}
+		var _t = null;
+		window.addEventListener("resize",function(){
+			clearTimeout(_t);
+			_t = setTimeout(setFontSize,100);
+		},false);
+		setFontSize();
+		//var _v = new Date().getTime();
+		//document.write('<link rel="stylesheet" type="text/css" href="http://static.jiouyun.com/source/modules/scratch/style/css/style.css?_v='+_v+'">');
+	}(window);
+    var link = '';
+</script>
+    <style>
+    .bgg{
+        position:fixed;
+        width:100%;
+        height:4rem;
+        bottom:0;
+
+    }
+    .bgg img{
+        height:100%;
+        width:100%;
+    }
+    .bgg .cha2{
+        position:absolute;
+        right:0;
+        top:0.1rem;
+        height:0.6rem;
+        width:0.6rem;
+    }
+
+    .bg-img {
+        background-position: 0 0;
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+    }
+    .cha,.cha2 {
+        height: 0.6rem;
+        width: 1rem;
+        background-image: url('../../scratchCard/cha.png');
+    }
+</style>
+<body >
+        <div class="bgg" style="" id="adShow" type="hidden">
+        <div class="cha2 bg-img"></div>
+            <!--广告链接(image)和广告地址（a）-->
+            <a id="adHref" href=""><img src="" id="adPic"></a>
+        </div>
+    	<div id="backgroundUrl" style="width: 100%;min-height: 100%;">
+		<div class="top">
+			<div class="main">
+               <div class="Scratch"  id="scratchClick">
+					<div id="ggk1" class="ggk1a">
+						<div class="ggk1b">
+                            <!--ggk1c中为获奖的结果-->
+							<p id="ggk1c"></p>
+						</div>
+					</div>
+				</div>
+				<div class="Scratch_txt">
+					刮奖区
+					<a href="javascript:location.reload();" class="Scratch_btn" style="display:none">再来一次</a>
+				</div>
+                			</div>
+			<div id="wordUrl" style="position: absolute;left: 2rem;top: 2.175rem;width: 11.2rem;height: 7.45rem;z-index: 2;" ></div>
+			<a id="actiityIntroduction" class="active" href="/gametemplate/activityIntroduction?activityId=<%=activityId %>" >活动说明</a>
+		</div>
+		<div class="txt">可玩次数: <b><span id="totalNum"></span></b>次<span>已刮次数: <b><span id="useNum"></span></b>次</span></div>
+		<div  class="setting clearfix">
+			<h3>奖项设置</h3>
+			<ul id="prizes">
+            </ul>
+		</div>
+        		<!--<div class="foot">@云平台</div>-->
+	</div>
+	<!--中奖界面-->
+	<div class="layer zhongjiang none">
+		<span class="close"></span>
+		<div class="winning">
+			<div class="winning_img"><img src="../../scratchCard/winning_img.png"></div>
+            <div class="reward_detail">
+                <p id="jp_type" style="font-size:17px;"></p>
+                <p id="jp_name" style="font-size:17px;"></p>
+                <p id="jp_code" style="font-size:17px;"></p>
+            </div>
+            <div class="winning_form">
+                <!--<input type="text" name="name" id="name" class="winning_txt" placeholder="输入联系人" />-->
+                <input type="hidden" name="sncode" id="sncode" value="">
+
+                <input type="text" name="realname" id="realname" class="winning_txt none" placeholder="输入姓名，以便领取奖品"  data-value="">
+                <form>
+                    <div>
+                        <p style="font-size:18px;color:red;">输入手机号码：</p>
+                    </div>
+                    <div>
+                        <input type="text" id="phone" name="phone"/>
+                    </div>
+                    <div>
+                        <p style="font-size:18px;color:red;">验证码：</p>
+                    </div>
+                    <div>
+                        <input type="text" id="checkCode" name="checkCode" size="6"/>
+                        <input id="btnSendCode" type="button" value="发送验证码" />
+                    </div>
+                </form>
+                <!--<input type="text" name="address" id="address" class="winning_txt none" placeholder="输入收货地址，以便领取奖品" data-value="">-->
+				<a href="javascript:;" class="form_btn">领取奖品</a>
+			</div>
+		</div>
+	</div>
+	<!--中奖界面-->
+	<!--成功领取-->
+	<div class="receive none">
+		<h3>成功领取</h3>
+		<p id="auctionInfo"></p>
+	</div>
+	<!--成功领取-->
+	<!--未中奖界面-->
+	<div class="layer weizhongjiang none">
+		<span class="close"></span>
+		<div class="winning">
+			<div class="winning_img" style="padding-bottom: 1.5rem">
+                <img src="../../scratchCard/notwinning_img.png"></div>
+            <div class="winning_form" style="text-align:center;color:#fff;padding-bottom:1rem;font-size: 0.8rem"><span id="repeatResponse"></span></div>
+            <div class="winning_form">
+				<a href="javascript:location.reload();" class="btn try">再试一次</a>
+			</div>
+		</div>
+	</div>
+	<!--未中奖界面-->
+	<!--机会用光了-->
+	<div class="layer none">
+		<span class="close"></span>
+		<div class="winning">
+			<div class="winning_img jh_img"><img src="../../scratchCard/jh.png"></div>
+			<div class="winning_form">
+				<a href="javascript:;" class="btn">明天再来</a>
+			</div>
+		</div>
+	</div>
+	<!--机会用光了-->
+	<!--分享界面-->
+	<div class="share none ?>">
+        <p style="padding:2rem 0 0 0;">
+            <!--该处要替换为公众号的二维码，通过向微信后台发送请求-->
+            <a id="focusLink" style="display: inline;width:150px;margin: 0 auto;" href=""/>
+        </p>
+		<p style="padding-top:2rem;">
+		点击此处链接进行关注<br />
+		回复关键词：<span>刮刮卡</span><br />
+		即可参加该活动</p>
+	</div>
+	<!--分享界面-->
+<!--<script type="text/javascript">-->
+    <!--$(".bgg .cha2").click(function(){-->
+        <!--$('.bgg').hide();-->
+    <!--});-->
+    <!--var eles = $('.index_scroll ul');-->
+    <!--function aSingleScroll(eles, count, times){-->
+        <!--clearInterval(eles.auto);-->
+        <!--if(typeof eles.step == 'undefined'){-->
+            <!--eles.step = 0;-->
+            <!--eles.h = eles.height() / 20;-->
+            <!--eles.append(eles.find('li').first().clone());-->
+        <!--}-->
+        <!--if(eles.step > eles.h){-->
+            <!--eles.css('top','0rem');-->
+            <!--eles.step = count;-->
+            <!--eles.animate({'top': '-' + eles.step + 'rem'});-->
+        <!--}else{-->
+            <!--eles.animate({'top': '-' + eles.step + 'rem'});-->
+        <!--}-->
+        <!--eles.step += count;-->
+        <!--eles.auto = setInterval(function(){aSingleScroll(eles, count, times)}, times);-->
+    <!--}-->
+    <!--aSingleScroll(eles, 1.25, 1500);-->
+<!--</script>-->
+</body>
+</html> 

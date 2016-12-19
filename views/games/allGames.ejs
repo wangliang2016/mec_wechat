@@ -1,0 +1,96 @@
+<!doctype html>
+<html >
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../../css/bootstrap.css" rel="stylesheet" type="text/css" media='all'>
+    <link href="../../css/font-awesome.css" rel="stylesheet" type="text/css" media='all'>
+    <link href="../../css/frame_v4.css" rel="stylesheet" type="text/css" media='all'>
+    <link href="../../css/games.css" rel="stylesheet" type="text/css" media='all'>
+    <script src="../../js/jquery-3.1.0.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <script>
+        function getDetailInfo(gameData){
+            window.location.href="./gamebegin"+gameData;
+        }
+        $(document).ready(function() {
+            $.ajax({
+                url: '/games/getAllGame',
+                type: 'get',
+                data: null,
+                dataType: 'html',
+                timeout: 10000,
+                error: function (err) {
+                    alert("获取游戏信息失败！" + JSON.stringify(err));
+                },
+                success: function (msg) {
+                    var gameData = [];
+                    gameData = JSON.parse(msg);
+                    dataLength = gameData.length;
+                    for (var i = 0; i < dataLength; i++) {
+                        console.log(gameData[i].GAMEPIC);
+                        var text1 = "<div class=\"game\" id=\"" + gameData[i].GAMECODE+"\" onclick=\"javascript:getDetailInfo("+gameData[i].GAMECODE+")\">";
+                        var text2 = "<img src=\"../../img/app_ico/" + gameData[i].GAMEPIC + "\"></img>";
+                        var text3 = "<div class=\"gameTitle\">";
+                        var text4 = " <p>" + gameData[i].GAMEDESCRIPT + "</p></div> </div>";
+                        var text=text1+text2+text3+text4;
+                        $("#clearfix").append(text);
+                    }
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="my_content" ng-controller="allGamesContrl">
+    <div class="clearfix" style="padding-right:40px;"><a href="http://bbs.weixinhai.com/forum.php?mod=viewthread&amp;tid=39&amp;extra=page%3D1" target="_blank" class="my_help_doc">帮助文档</a></div>
+    <div class="my_table clearfix">
+        <div class="my_appCenter">
+            <div class="my_title">常用功能</div>
+            <div class="my_appCenter_main clearfix">
+                <ul>
+                    <!--<li class="col-md-2">-->
+                        <!--<a href="http://cloud.jiouyun.com/home.php?app=autorep">-->
+                            <!--<span><img src="../../../img/app_ico/app_ico1.png"></span>-->
+                            <!--自动回复-->
+                        <!--</a>-->
+                    <!--</li>-->
+                    <li class="col-md-2">
+                        <a href="http://cloud.jiouyun.com/home.php?app=site">
+                            <span><img src="../../../img/app_ico/app_ico2.png"></span>
+                            微官网
+                        </a>
+                    </li>
+                    <li class="col-md-2">
+                        <a href="/wechatapi/createmenu">
+                            <span><img src="../../../img/app_ico/app_ico3.png"></span>
+                            自定义菜单
+                        </a>
+                    </li>
+                    <li class="col-md-2">
+                        <a href="http://cloud.jiouyun.com/account.php?act=post&amp;id=current&amp;menu=%E5%85%AC%E4%BC%97%E5%8F%B7%E8%B5%84%E6%96%99&amp;ts=20130910111622">
+                            <span><img src="../../../img/app_ico/app_ico4.png"></span>
+                            参数设置与其他
+                        </a>
+                    </li>
+                    <li class="col-md-2">
+                        <a href="http://cloud.jiouyun.com/home.php?app=redpaper">
+                            <span><img src="../../../img/app_ico/app_ico24.png" width="70"></span>
+                            现金红包
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="my_appCenter">
+            <div class="my_title">营销中心</div>
+            <div class="my_appCenter_main clearfix">
+                <div id="clearfix">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

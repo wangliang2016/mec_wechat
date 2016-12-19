@@ -1,0 +1,26 @@
+{
+  "COUPONCODE": {
+    "type": "varchar(64)",
+    "allowNull": false,
+    "primaryKey": true,
+    "comment": null
+  },
+  "MERCHANTCODE":{
+    "type": "char(6)",
+    "allowNull": false,
+    "primaryKey": true,
+    "comment": null
+  },
+  "TEMPLATECODE": {
+    "type": "int(11)",
+    "allowNull": false,
+    "primaryKey": false,
+    "comment": null
+  },
+  "OPENID": {
+    "type": "VARCHAR(64)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  }
+}

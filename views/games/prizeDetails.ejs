@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html ng-app="ews">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../../css/bootstrap.css" rel="stylesheet" type="text/css" media='all'>
+    <link href="../../css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="../../css/page.css" rel="stylesheet" type="text/css" media='all'>
+    <script src="../../js/jquery-2.1.1.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <meta id="gameCode" name="gameCode" content="<%=gameCode %>"/>
+    <script type="text/javascript" src="../../js/angular.min.js" ></script>
+    <script type="text/javascript" src="../../js/angular-route.min.js" ></script>
+    <script type="text/javascript" src="../../js/angular-ui-router.js" ></script>
+    <script type="text/javascript" src="../../prizeDetails.js" ></script>
+    <script type="text/javascript" src="../../js/jquery.page.js" ></script>
+    <style>
+        .fullData{
+            display:none;
+        }
+        #userDesp:hover .fullData{
+            position:absolute;
+            display:block;
+            cursor:hand;
+            word-break: break-all;
+            width:200px;
+            background-color: rgba(0,0,0,0.5);
+            color:#fff
+        }
+    </style>
+    <script>
+        function date2str(x,y) {
+            var z ={y:x.getFullYear(),M:x.getMonth()+1,d:x.getDate()};
+            return y.replace(/(y+|M+|d+)/g);
+        }
+        function FormatDate (strTime) {
+            var date = new Date(strTime);
+            return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
+        }
+    </script>
+</head>
+<body>
+<div  ng-controller="gamebegincontrl" style="padding-left: 5%;padding-top: 0px;margin-top: 0px">
+    <div class="row">
+        <div class='col-sm-10'>
+            <h4 class="page-header" id="pageTitle">发奖明细</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class='col-sm-1'>
+            <h4>关键词</h4>
+        </div>
+        <div class='col-sm-3'>
+            <input type="text" class="form-control" id="iQueryActivityName" ng-model="queryActivityName">
+        </div>
+        <div class='col-sm-1'>
+            <select class="form-control" ng-options="couponTemplateSimpleInfo.showInfo for couponTemplateSimpleInfo in couponTemplateSimpleInfos">
+            </select>
+        </div>
+        <div class='col-sm-1'>
+            <button type="button" class="btn btn-info"   id="queryItem" ng-click="queryActivityInfo(<%=gameCode%>)"> 查询  </button>
+        </div>
+        <!--</div>-->
+
+        <!--<div class="row">-->
+        <div class='col-sm-1'></div>
+        <div class='col-sm-2'>
+            <button type="button" class="btn btn-info" id="addItem" ng-click="addActivityPage(<%=gameCode%>)">新增刮刮卡活动</button>
+        </div>
+        <div class='col-sm-1'>
+            <button type="button" class="btn btn-info" id="addItem">刷新</button>
+        </div>
+    </div>
+    <table class="table table-striped" ng-controller="gamebegincontrl1">
+        <thead>
+        <tr>
+            <th>活动名称</th>
+            <th >活动连接</th>
+            <th>关键字名称</th>
+            <th>有效参与人数</th>
+            <th>总浏览数</th>
+            <th>开始/结束时间</th>
+            <!--<th>状态</th>-->
+            <th>修改</th>
+            <th>删除</th>
+        </tr>
+        </thead>
+        <tbody id="couponTbody" ng-repeat="activityInfo in activityInfos">
+        <td ng-model="activityInfo.NAME">{{activityInfo.NAME}}</td>
+        <td  id="userDesp">
+            鼠标置于此进行查看和复制
+            <div class="fullData" >
+                {{activityInfo.GAMEADDRESS}}
+            </div>
+        </td>
+        <td >{{activityInfo.KEYWORDS}}</td>
+        <td >{{activityInfo.PARTICIPATENUM}}</td>
+        <td >{{activityInfo.VISITNUM}}</td>
+        <td><p>{{activityInfo.BEGINAT}}/{{activityInfo.ENDAT}}</p></td>
+        <!--<td>{{activityInfo.STATUS}}</td>-->
+        <td>
+            <a class="fa fa-edit fa-fw" aria-hidden="true" ng-click="editOneActivity(<%=gameCode%>,activityInfo.ACTIVITYID)">修改</a>
+        </td>
+        <td>
+            <a class="fa fa-times fa-fw" aria-hidden="true" ng-click="deleteOneActivity($index,activityInfo.ACTIVITYID)">删除</a>
+        </td>
+        </tbody>
+    </table>
+    <div class="widget-foot text-center" >
+        <ul class="pagination pagination-sm ">
+            <li><button type="button" ng-disabled="currentActivity==0" ng-click="currentActivityPre()">Prev</button></li>
+            <li>{{currentActivity+1}}</li>
+            <li><button type="button" ng-disabled="finalNum==currentActivity" ng-click="currentActivityNext()">Next</button></li>
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<!-- Modal -->
+</body>
+</html>

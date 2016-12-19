@@ -1,0 +1,176 @@
+.demo{padding:2%}
+.stamp *{padding:2%;margin:1%;list-style:none;font-family:"Microsoft YaHei",'Source Code Pro', Menlo, Consolas, Monaco, monospace;}
+
+.stamp {
+    /*width: 387px;*/
+    height: 130px;
+    margin-bottom: 25px;
+
+    position: relative;
+    overflow: hidden;
+
+
+}
+.stamp:before {
+    content: '';
+    position: absolute;
+    top:0;
+    bottom:0;
+    left:10px;
+    right:10px;
+
+    z-index: -1;
+}
+.stamp:after {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    right: 10px;
+    bottom: 10px;
+    box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.5);
+    z-index: -2;
+}
+
+.stamp i{
+    position: absolute;
+    left: 20%;
+    top: 45px;
+    height: 260px;
+    width: 390px;
+    background-color: rgba(255,255,255,.15);
+    transform: rotate(-30deg);
+}
+.stamp .par{
+    float: left;
+    padding: 2%;
+    padding-left: 4%;
+    /*width: 220px;*/
+    width: 50%;
+    height: 120px;
+    border-right:2px dashed rgba(255,255,255,.3);
+    text-align: left;
+}
+.stamp .par p {
+    color: #fff;
+    font-size: 10.5px;
+    margin: 0px;
+    padding: 0px;
+    /*margin-top:5%;*/
+    /*line-height: 21px;}*/
+}
+.stamp .par span{
+    font-size: 30px;
+    color:#fff;
+    margin:0px;
+    padding: 0px;
+    /*line-height: 65px;*/
+}
+.stamp .par .sign{font-size: 20px;}
+.stamp .par sub{position: relative;top:-5px;
+    color:rgba(255,255,255,.8);
+    font-size: 15px;
+}
+.stamp .copy{
+    display: inline-block;
+    /*padding:21px 14px;*/
+    width:45%;
+    vertical-align: text-bottom;
+    font-size: 17px;
+    color:rgb(255,255,255);
+    text-align: center;
+    line-height: initial;
+}
+.stamp .copy p{font-size: 4px; text-align: left}
+.stamp01{
+    background: #F39B00;
+    background: radial-gradient(rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 5px, #F39B00 5px);
+    background-size: 15px 15px;
+    background-position: 9px 3px;
+
+}
+.stamp01:before{
+    background-color:#F39B00;
+}
+.stamp01 .par{
+    padding-top: 5%;
+}
+.stamp02{
+    background: #D24161;
+    background: radial-gradient(transparent 0, transparent 5px, #D24161 5px);
+    background-size: 15px 15px;
+    background-position: 9px 3px;
+}
+.stamp02:before{
+    background-color:#D24161;
+}
+.stamp03{
+    background: #F39B00;
+    background: radial-gradient(rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 5px, #F39B00 5px);
+    background-size: 15px 15px;
+    background-position: 9px 3px;
+    opacity:.4;filter:alpha(opacity=40);
+}
+.stamp03:before{
+    background-color:#F39B00;
+    opacity:.4;filter:alpha(opacity=40);
+}
+.stamp04{
+    background: #D24161;
+    background: radial-gradient(transparent 0, transparent 5px, #D24161 5px);
+    background-size: 15px 15px;
+    background-position: 9px 3px;
+    opacity:.4;filter:alpha(opacity=40);
+}
+.stamp04:before{
+    background-color:#D24161;
+    opacity:.4;
+}
+.stamp05{
+    background: #7EAB1E;
+    background: radial-gradient(rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 5px, #7EAB1E 5px);
+    background-size: 15px 15px;
+    background-position: 9px 3px;
+}
+.stamp05 .par p{
+    font-size: 10.5px;
+}
+.stamp05 .par{
+    padding-top: 4%;
+}
+.stamp05:before{
+    background-color:#7EAB1E;
+}
+.stamp06{
+    background: #50ADD3;
+    background: radial-gradient(transparent 0, transparent 5px, #50ADD3 5px);
+    background-size: 15px 15px;
+    background-position: 9px 3px;
+}
+.stamp06 .par p{
+    font-size: 10.5px;
+}
+.stamp06:before{
+    background-color:#50ADD3;
+}
+#total{
+    font-family:"Microsoft YaHei",'Source Code Pro', Menlo, Consolas, Monaco, monospace;
+    font-size: 15px;
+    color:#ffffff;
+}
+#QRoutput canvas{
+    background-color:#ffffff;
+    padding: 4%;
+    border:1px solid #F39B00;
+    border-radius:10px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:15%;
+    float: none;
+    display: block;
+
+}
+#personalInfo{
+    margin-top: 15%;
+    text-align: center;
+}

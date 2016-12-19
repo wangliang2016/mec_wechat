@@ -1,0 +1,9 @@
+{
+  "dev":{
+    "hostname":"192.168.1.101",
+    "port":4000,
+    "templateFile":"/GameTemplate",
+    "instanceFile":"/GameInstance",
+    "hostUrl":"http://16fe012909.iok.la"
+  }
+}

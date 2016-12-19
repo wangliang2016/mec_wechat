@@ -1,0 +1,22 @@
+{
+  "dev":{
+    "hostname": "www.wemediacn.net",
+    "port": 80,
+    "path":"/webservice/smsservice.asmx/"
+  },
+  "test":{
+    "hostname": "www.wemediacn.net",
+    "port": 80,
+    "path":"/webservice/smsservice.asmx/"
+  },
+  "qa":{
+    "hostname": "www.wemediacn.net",
+    "port": 80,
+    "path":"/webservice/smsservice.asmx/"
+  },
+  "prod":{
+    "hostname": "www.wemediacn.net",
+    "port": 80,
+    "path":"/webservice/smsservice.asmx/"
+  }
+}

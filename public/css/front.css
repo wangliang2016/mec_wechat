@@ -1,0 +1,239 @@
+@charset "UTF-8";
+/* CSS Document */
+
+
+body {
+  background: #F8F8F8;
+  color: #ffffff;
+  font-family: "Helvetica Neue", Helvetica, Microsoft Yahei, Hiragino Sans GB, WenQuanYi Micro Hei, sans-serif;
+}
+
+hr {
+	color: #ddd;
+	background-color: #ddd;
+	height: 1px;
+	margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.navbar-inverse {
+    background-color: #515B64;
+    border:0;
+}
+
+.img-responsive {
+	margin: 0 auto;
+}
+
+ /* 767px Max Width for Mobile and small Tablet view col-xs */
+@media (max-width: 767px) {
+	
+	.front-logo {
+		border-bottom: 2px #ddd solid;
+		padding-top: 50px;
+		padding-bottom: 50px;
+	}
+	.reg-form {
+		padding-top: 25px;
+		padding-bottom: 50px;
+	}
+	.reg-btn {
+		margin-bottom:20px;
+	}
+	.sm-icons {
+		margin-right: 10px;
+	}
+	.gearhead {
+		background: #666;
+		height:768px;
+		background-image:url(../images/gearhead.png);
+		background-repeat: no-repeat;
+		background-attachment: scroll;
+		background-position: center top;
+	}
+	.impact-text {
+		padding-top: 10px;
+		padding-bottom: 50px;
+		border-bottom: 2px #ddd solid;
+	}
+	.impact-btn {
+		margin-bottom: 20px;
+		margin-right: 10px;
+		margin-top: 10px;
+	}
+	.planning {
+		padding-top: 20px;
+		padding-bottom: 20px;
+	}
+	.planning-borders {
+		border-top: #ddd dotted 2px;
+		border-bottom: #ddd dotted 2px;
+		margin-top: 10px;
+		margin-bottom: 20px;
+		padding-top:20px;
+		padding-bottom:10px;
+	}
+	.btn-planning {
+		margin-top: 20px;
+		margin-bottom: 20px;
+		font-size: 16px;
+	}
+
+	.why-container {
+		padding-bottom:100px;
+	}
+
+}
+
+ /* min-width 768 Tablet width or Portrait */
+ 
+ @media (min-width: 768px) {
+	 	.front-logo {
+		border-bottom: 2px #ddd solid;
+		padding-top: 50px;
+		padding-bottom: 50px;
+	}
+	.reg-form {
+		padding-top: 25px;
+		padding-bottom: 50px;
+	}
+	.reg-btn {
+		margin-bottom:20px;
+	}
+	.sm-icons {
+		margin-right: 10px;
+	}
+	.gearhead {
+		background: #666;
+		height:768px;
+		background-image:url(../images/gearhead.png);
+		background-repeat: no-repeat;
+		background-attachment: scroll;
+		background-position: center top;
+	}
+	.impact-text {
+		padding-top: 10px;
+		padding-bottom: 50px;
+		border-bottom: 2px #ddd solid;
+	}
+	.impact-btn {
+		margin-bottom: 20px;
+		margin-right: 10px;
+		margin-top: 10px;
+	}
+	.planning {
+		padding-top: 20px;
+		padding-bottom: 20px;
+	}
+	.planning-borders {
+		border-top: #ddd dotted 2px;
+		border-bottom: #ddd dotted 2px;
+		margin-top: 10px;
+		margin-bottom: 20px;
+		padding-top:20px;
+		padding-bottom:10px;
+	}
+	.btn-planning {
+		margin-top: 20px;
+		margin-bottom: 20px;
+		padding: 10px 16px;
+		font-weight: bold;
+		font-size: 18px
+	}
+	.why-container {
+		padding-bottom:150px;
+	}
+
+ }
+ /* min-width 992 Screen Width or Landscape Tabletx*/
+ 
+ @media (min-width:992px) {
+	.register {
+		padding-top:20px;
+		/*height:728px;*/
+		padding-bottom:20px;
+	}
+	
+	.front-logo {
+		border-bottom:none;
+		padding-top: 175px;
+		padding-bottom: 200px;
+		vertical-align:middle;
+	}
+	.reg-form {
+		padding-top: 25px;
+		padding-bottom: 25px;
+		border-left: 2px #ddd dotted;
+		margin-bottom: 25px;
+	}
+	.reg-btn {
+		margin-bottom:20px;
+	}
+	.sm-icons {
+		margin-right: 10px;
+	}
+	.impact {
+		background-color: #666;
+		background-image: url(../images/gearhead.png);
+		background-repeat: no-repeat;
+		background-attachment: scroll;
+		background-position: 100% 0%;
+		height: 768px;
+	}
+	.gearhead {
+		background:none;
+		display:none;
+		visibility:hidden;
+		height: 0px;
+	}
+	.impact-text {
+		padding-top: 130px;
+		padding-bottom: 0px;
+		border-bottom: none;
+	}
+	.impact-btn {
+		margin-bottom: 20px;
+		margin-right: 10px;
+		margin-top: 10px;
+	}
+	.planning {
+		padding-top: 100px;
+	}
+	.planning-borders {
+		border-right: #ddd dotted 2px;
+		border-left: #ddd dotted 2px;
+		border-top:none;
+		border-bottom:none;
+		margin-top: 0px;
+		margin-bottom: 0px;
+		padding-top:10px;
+		padding-bottom:50px;
+	}
+	.planning-ico {
+		padding-bottom:50px;
+		padding-top:10px;
+	}
+	.btn-planning {
+		margin-top: 50px;
+		margin-bottom: 50px;
+		padding: 10px;
+		font-weight: bold;
+		font-size: 18px;
+	}
+	.planning-bottom {
+		padding-bottom: 100px;
+	}
+	.why {
+		padding-top:150px;
+	}
+	.why-container {
+		padding-bottom:150px;
+	}
+ }
+ 
+ @media (min-width:1024px) {
+	 .gearhead {
+		 display:none;
+		 height:0px;
+	 }
+ }

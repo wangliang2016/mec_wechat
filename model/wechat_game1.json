@@ -1,0 +1,225 @@
+{
+  "GAMEID": {
+    "type": "int(11)",
+    "allowNull": true,
+    "primaryKey": true,
+    "autoIncrement": true,
+    "comment": null
+  },
+  "GAMECODE": {
+    "type": "int(6)",
+    "allowNull": false,
+    "primaryKey": false,
+    "comment": null
+  },
+  "MODULETITLE0": {
+    "type": "varchar(32)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  },
+  "MODULETITLE1": {
+    "type": "varchar(32)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  },
+  "MODULETITLE2": {
+    "type": "varchar(32)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  },
+  "MODULETITLE3": {
+    "type": "varchar(32)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  },
+  "MODULETITLE4": {
+    "type": "varchar(32)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  },
+  "MODULETITLE5": {
+    "type": "varchar(32)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  },
+  "MODULETITLE6": {
+    "type": "varchar(32)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  },
+  "MODULECOUPON0": {
+    "type": "varchar(16)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  },
+  "MODULECOUPON1": {
+    "type": "varchar(16)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  },
+  "MODULECOUPON2": {
+    "type": "varchar(16)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  },
+  "MODULECOUPON3": {
+    "type": "varchar(16)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  },
+  "MODULECOUPON4": {
+    "type": "varchar(16)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  },
+  "MODULECOUPON5": {
+    "type": "varchar(16)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  },
+  "MODULECOUPON6": {
+    "type": "varchar(16)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  },
+  "PROBABILITY0": {
+    "type": "DECIMAL(8,5)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  },
+  "PROBABILITY1": {
+    "type": "DECIMAL(8,5)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  },
+  "PROBABILITY2": {
+    "type": "DECIMAL(8,5)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  },
+  "PROBABILITY3": {
+    "type": "DECIMAL(8,5)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  },
+  "PROBABILITY4": {
+    "type": "DECIMAL(8,5)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  },
+  "PROBABILITY5": {
+    "type": "DECIMAL(8,5)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  },
+  "PROBABILITY6": {
+    "type": "DECIMAL(8,5)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  },
+  "MODULEGOODSNUM0": {
+    "type": "VARCHAR(32)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  },
+  "MODULEGOODSNUM1": {
+    "type": "VARCHAR(32)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  },
+  "MODULEGOODSNUM2": {
+    "type": "VARCHAR(32)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  },
+  "MODULEGOODSNUM3": {
+    "type": "VARCHAR(32)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  },
+  "MODULEGOODSNUM4": {
+    "type": "VARCHAR(32)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  },
+  "MODULEGOODSNUM5": {
+    "type": "VARCHAR(32)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  },
+  "MODULEGOODSNUM6": {
+    "type": "VARCHAR(32)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  },
+  "MODULECONTENT0": {
+    "type": "VARCHAR(1024)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  },
+  "MODULECONTENT1": {
+    "type": "VARCHAR(1024)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  },
+  "MODULECONTENT2": {
+    "type": "VARCHAR(1024)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  },
+  "MODULECONTENT3": {
+    "type": "VARCHAR(1024)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  },
+  "MODULECONTENT4": {
+    "type": "VARCHAR(1024)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  },
+  "MODULECONTENT5": {
+    "type": "VARCHAR(1024)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  },
+  "MODULECONTENT6": {
+    "type": "VARCHAR(1024)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null
+  }
+}

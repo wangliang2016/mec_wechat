@@ -1,0 +1,41 @@
+<!doctype html>
+<html >
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../../css/bootstrap.css" rel="stylesheet" type="text/css" media='all'>
+    <link href="../../css/font-awesome.css" rel="stylesheet" type="text/css" media='all'>
+    <link href="../../css/frame_v4.css" rel="stylesheet" type="text/css" media='all'>
+    <link href="../../css/games.css" rel="stylesheet" type="text/css" media='all'>
+    <script src="../../js/jquery-3.1.0.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+           var data={
+                "usercode":'000000',
+                "templatecode": "09080720",//该劵对应的类型  优惠券的id
+                "templatemerchantcode":"20020",
+                "merchantcode": '20020',
+                "usermerchantcode":"20020",
+                "num":1
+            };
+            $.ajax({
+                url: '/coupon/distributecoupon',
+                type: 'post',
+                data: data,
+                dataType: 'html',
+                timeout: 10000,
+                error: function (err) {
+                    alert("获取游戏信息失败！" + JSON.stringify(err));
+                },
+                success: function (msg) {
+                    alert(msg);
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>

@@ -1,0 +1,58 @@
+{
+  "USERCODE": {
+    "type": "int(11)",
+    "allowNull": false,
+    "primaryKey": true,
+    "autoIncrement": true
+  },
+  "MERCHANTCODE": {
+    "type": "char(6)",
+    "allowNull": false,
+    "primaryKey": false
+  },
+  "ROLE": {
+    "type": "tinyint(1)",
+    "allowNull": false,
+    "primaryKey": false
+  },
+  "NAME": {
+    "type": "varchar(32)",
+    "allowNull": false,
+    "primaryKey": false
+  },
+  "TELEPHONE": {
+    "type": "varchar(16)",
+    "allowNull": false,
+    "primaryKey": false
+  },
+  "SALT": {
+    "type": "varchar(64)",
+    "allowNull": false,
+    "primaryKey": false
+  },
+  "HASH": {
+    "type": "varchar(128)",
+    "allowNull": false,
+    "primaryKey": false
+  },
+  "token": {
+    "type": "varchar(45)",
+    "allowNull": false,
+    "primaryKey": false
+  },
+  "appid": {
+    "type": "varchar(1024)",
+    "allowNull": false,
+    "primaryKey": false
+  },
+  "encodingAESKey": {
+    "type": "varchar(2048)",
+    "allowNull": false,
+    "primaryKey": false
+  },
+  "appsecret": {
+    "type": "varchar(1024)",
+    "allowNull": false,
+    "primaryKey": false
+  }
+}

@@ -1,0 +1,9 @@
+{
+
+  "dev": {
+    "host":"192.168.1.102",
+    "hostUrl":"http://16fe012909.iok.la",
+    "wechat":5000,
+    "wechatSSL":4001
+  }
+}

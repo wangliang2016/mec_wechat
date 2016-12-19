@@ -1,0 +1,39 @@
+body{
+    font-family: "Helvetica Neue","Hiragino Sans GB","Microsoft YaHei","\9ED1\4F53",Arial,sans-serif;
+    font-size:15px;
+}
+.games{
+
+}
+.game{
+    float:left;
+    margin: 10px;
+}
+.games img{
+    position:relative;
+    width:240px;
+    height: 240px;
+    padding: 1px;
+
+}
+.gameTitle{
+    text-align: center;
+}
+.setting0{
+    margin:4%;
+}
+.setting0 .col-sm-6{
+    border: 1px solid #e7e7eb;
+}
+.panel-body{
+    text-align: center;
+}
+.formGroup{
+    width:45%;
+    float:left;
+    margin: 2%;
+}
+.submitButton{
+    padding-left:2%;
+    padding-right:2%;
+}

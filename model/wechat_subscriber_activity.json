@@ -1,0 +1,49 @@
+{
+  "USERID": {
+    "type": "int(11)",
+    "allowNull": false,
+    "primaryKey": true,
+    "comment": null
+  },
+  "ACTIVITYID": {
+    "type": "varchar(18)",
+    "allowNull": false,
+    "primaryKey": true,
+    "comment": null
+  },
+  "HAVEPLAYEDNUM": {
+    "type": "int(11)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null,
+    "defaultValue": 1
+  },
+  "RECENTPLAYTIME": {
+    "type": "DATETIME",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null,
+    "defaultValue": "CURRENT_TIMESTAMP"
+  },
+  "PLAYTIMES": {
+    "type": "int(11)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null,
+    "defaultValue": 1
+  },
+  "PRIZENUM":{
+    "type": "int(11)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null,
+    "defaultValue": 0
+  },
+  "SHARETIMES": {
+    "type": "int(11)",
+    "allowNull": true,
+    "primaryKey": false,
+    "comment": null,
+    "defaultValue": 1
+  }
+}

@@ -1,0 +1,69 @@
+<html style="font-size: 85.375px;" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" id="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta id="activityId" name="activityId" content="<%=activityId %>"/>
+    <title></title>
+<script type="text/javascript">
+	!function(){
+		//rem  计算方式  px/40
+		function setFontSize(){
+			document.documentElement.style.fontSize = document.documentElement.clientWidth /16 +"px";
+		}
+		var _t = null;
+		window.addEventListener("resize",function(){
+			clearTimeout(_t);
+			_t = setTimeout(setFontSize,100);
+		},false);
+		setFontSize();
+		//var _v = new Date().getTime();
+		//document.write('<link rel="stylesheet" type="text/css" href="http://static.jiouyun.com/source/modules/scratch/style/css/style.css?_v='+_v+'">');
+	}(window);
+    window.onload=function(){
+        var activityId = $("#activityId")[0].content;
+        $.ajax({
+            url: '../activity/wqueryOneActivity',
+            type: 'post',
+            dataType: 'html',
+            timeout: 10000,
+            data: {activityId:activityId},
+            success: function (data) {
+                if (JSON.parse(data).status) {
+                    var htmll=JSON.parse(data).msg.INTRODUCTION;
+                    document.getElementById("mainActive").innerHTML=htmll;
+                }
+            },
+            error: function (data) {
+                document.getElementById('mainActive').innerHTML="暂时无法获得活动说明，可能在更新中";
+            }
+        });
+    };
+</script>
+<link rel="stylesheet" type="text/css" href="../../css/style.css">
+<script type="text/javascript" src="../../js/jquery-3.1.0.min.js"></script>
+</head>
+<body style="height: 579px;" >
+	<header>活动说明</header>
+
+	<!--活动说明-->
+	<div class="active_main" id="mainActive">
+    </div>
+	<!--活动说明-->
+    <!--底下可以是商户的名称-->
+	<div class="foot"></div>
+	<script>
+        $(function(){
+            if(($('body').innerHeight() + $('.foot').height()) < $('html').innerHeight()){
+                $('body').height($('html').innerHeight());
+            }else{
+                $('body').css('padding-bottom','2rem')
+            }
+        });
+
+    </script>
+
+ </body>
+</html>

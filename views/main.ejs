@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../../css/bootstrap.css" rel="stylesheet" type="text/css" media='all'>
+    <link href="../../css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="../../css/metisMenu.min.css" rel="stylesheet" type="text/css">
+    <link href="../../css/main.css" rel="stylesheet" type="text/css" media='all'>
+    <script src="../../js/jquery-2.1.1.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/metisMenu.min.js"></script>
+    <script src="../../js/main.js"></script>
+    <script>
+        function SetWinHeight()
+        {
+            var ifm= document.getElementById("iframe");
+            //console.log(ifm);
+            var subWeb = document.frames ? document.frames["iframe"].document : ifm.contentDocument;
+            if(ifm != null && subWeb != null) {
+                ifm.height = subWeb.body.scrollHeight;
+            }
+        }
+        $(document).ready(function() {
+            $("#addActivity").click(function(){
+//                $("#pageTitle").text("填入该活动将发放的优惠券相关信息");
+                $("#iframe").attr("src","/games/allgames");
+
+            });
+        });
+
+    </script>
+</head>
+<body>
+<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            </button>
+            <a class="navbar-brand" href="/main">WECHAT HUIJIN</a>
+        </div>
+        <ul class="nav navbar-top-links navbar-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li><a href="#"><i class="fa fa-user fa-fw"></i><%=usercode %></a>
+                    </li>
+                    <li><a href="#"><i class="fa fa-gear fa-fw"></i> 绑定公众号</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li><a href=""><i class="fa fa-sign-out fa-fw"></i> 退出</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    <div class="navbar-default sidebar" role="navigation">
+        <div class="sidebar-nav navbar-collapse">
+            <ul class="nav" id="side-menu">
+                <li>
+                    <a href="#"><i class="fa fa-gamepad fa-fw"></i> 营销中心<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a id="addActivity">添加营销方案</a>
+                        </li>
+                        <li>
+                            <a id="modifyActivity">修改营销方案</a>
+                        </li>
+                    </ul>
+                    <!-- /.nav-second-level -->
+                </li>
+            </ul>
+        </div>
+    </div>
+    </nav>
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <iframe width="100%" height="1100px"  id="iframe" name="iframe" frameborder="0"
+                    scrolling="no"  onload="SetWinHeight()" onchange="SetWinHeight()">
+            </iframe>
+            <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+</body>
+</html>
